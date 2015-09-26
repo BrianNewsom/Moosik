@@ -150,29 +150,60 @@ var parsedHTML = handler.dom;
 
 
 function AudioGenerator(parsedHTML) {
-	var elements = []
-	var init = function () {
-		for (var i = 0 ; i < parsedHTML.length; i++ ){
-			// for each real tag
-			if (parsedHTML[i].name){
-				elements.push(parsedHTML[i])
-			}
-		}
-		console.log(elements)
-	};
-
-	init()
-
-	var note = songAPI.getNote();
-	note.play();
-
-	setTimeout(function() {
-		for (var i = 0 ; i < elements.length ; i++){
-			AudioGenerator(elements[i].children);
-		}
-	}, 1000)
-
-	return elements
+	this.html = parsedHTML;
 };
 
-var ag = AudioGenerator(parsedHTML)
+AudioGenerator.prototype = {
+	run: function() {
+		for (var i = 0 ; i < this.html.length ; i++) {
+			// New nodes at depth 0
+			var n = new AudioNode(this.html[i], 0).go()
+		}
+	}
+}
+
+function AudioNode(node, depth) {
+	this.children = [];
+	this.node = node;
+	this.depth = depth;
+}
+
+AudioNode.prototype = {
+	init: function(){
+		if (this.node.children){
+			for (var i = 0 ; i < this.node.children.length; i++ ){
+				// for each real tag
+				if (this.node.children[i].name){
+					this.children.push(this.node.children[i])
+				}
+			}
+		}
+	},
+	// Play nested layers below
+	setChildren: function(){
+		if (this.children.length && this.children[0]){
+			for (var i = 0 ; i < this.children.length ; i++){
+				if (this.children[i]){
+					new AudioNode(this.children[i], this.depth+1).go();
+				}
+			}
+		}
+	},
+	play: function(){
+		// Determine what to play
+		var note = songAPI.getNote();
+		note.play();
+		console.log("Playing: " + this.node.name + " at depth: " + this.depth);
+	},
+	go: function() {
+		this.init();
+		this.play();
+		var node = this;
+		setTimeout(function(){
+			node.setChildren();
+		}, 1000)
+	}
+}
+
+// Actually run everything
+new AudioGenerator(parsedHTML).run()
