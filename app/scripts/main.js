@@ -1,5 +1,8 @@
 'use strict';
 
+T("audio").load("/bower_components/timbre.js/misc/audio/drumkit.wav", function() {
+var wav = this;
+
 var RandIterator = function() {
   return function() {
     return Math.floor(Math.random() * this.notes.length);
@@ -21,7 +24,14 @@ var pentatonic = {
   notes: _.map(['G','A','B','D','E'], function(n) { return notesMap[n]; }),
   iterator: new RandIterator()
 };
+// TYPES OF NOTES
 
+var BD  = wav.slice(   0,  500).set({bang:false});
+var SD  = wav.slice( 500, 1000).set({bang:false});
+var HH1 = wav.slice(1000, 1500).set({bang:false, mul:0.2});
+var HH2 = wav.slice(1500, 2000).set({bang:false, mul:0.2});
+var CYM = wav.slice(2000).set({bang:false, mul:0.2});
+var scale = new sc.Scale([0,1,3,7,8], 12, "Pelog");
 
 function Note(freq, volume) {
     this.tone = new T('pluck', {freq:freq, mul:volume}).bang();
@@ -65,30 +75,60 @@ function SongAPI() {
 	
 	this.buildNote = function(tag, depth) {
 		var volume = Math.random();
-		switch(tag) {
-			case 'a':
-				return new Note(notesMap['E'], volume);
-				break
-			case 'p':
-				return new Note(notesMap['D'], volume);
-				break
-			case 'div':
-				return new Note(notesMap['G'], volume);
-				break
-			case 'ul':
-				return new Note(notesMap['G'], volume);
-				break
-			case 'li':
-				return new Note(notesMap['G'], volume);
-				break
-			case 'span':
-				return new Note(notesMap['G'], volume);
-				break
-			case 'script':
-				return new Note(notesMap['G'], volume);
-				break
+
+		switch(depth) {
+			case 0:
+				switch(tag) {
+					case 'a':
+						return HH1.bang()
+						break
+					case 'p':
+						return HH2.bang()
+					case 'div':
+						return BD.bang()
+						break
+					case 'ul':
+						return CYM.bang()
+						break
+					case 'li':
+						return SD.bang()
+						break
+					case 'span':
+						return SD.bang()
+						break
+					case 'script':
+						return CYM.bang()
+						break
+					default:
+						return SD.bang()
+				}
+				break;
 			default:
-				return new Note(notesMap['A'], volume);
+				switch(tag) {
+					case 'a':
+						return new Note(notesMap['E'], volume);
+						break
+					case 'p':
+						return new Note(notesMap['D'], volume);
+						break
+					case 'div':
+						return new Note(notesMap['G'], volume);
+						break
+					case 'ul':
+						return new Note(notesMap['G'], volume);
+						break
+					case 'li':
+						return new Note(notesMap['G'], volume);
+						break
+					case 'span':
+						return new Note(notesMap['G'], volume);
+						break
+					case 'script':
+						return new Note(notesMap['G'], volume);
+						break
+					default:
+						return new Note(notesMap['A'], volume);
+				}
 		}
 	}
 
@@ -174,5 +214,6 @@ AudioNode.prototype = {
 	}
 }
 
-// Actually run everything
 new AudioGenerator(parsedHTML).run()
+
+});
