@@ -315,8 +315,12 @@ AudioNode.prototype = {
 
 	var scaleNotes = getScale(TREE[1])
 
+	var penta =  [0, 2, 4, 7, 9, 12]; // pentatonic scale
+	
+	var unnormalizedScale = scaleNotes
+	var scale = unnormalizedScale.collect(function(i) { return i.nearestInScale(penta, 12); });
 
-	var scale = new sc.Scale(scaleNotes, 12, "Rand")
+	console.log(scale);
 	var pat = drums(TREE[0])
 	var P1 = pat.wrapExtend(128);
 	
@@ -327,7 +331,27 @@ AudioNode.prototype = {
   var vcf  = T("MoogFF", {freq:2400, gain:6, mul:0.1}, lead);
   var env  = T("perc", {r:100});
   var arp  = T("OscGen", {wave:"sin(15)", env:env, mul:0.5});
+	var bass = T("saw", {freq:100})
 
+	/* Pretty soaring synth */
+	var mml0, mml1;
+	var env   = T("adsr", {d:3000, s:0, r:600});
+	var synth = T("SynthDef", {mul:0.45, poly:8});
+
+	synth.def = function(opts) {
+		var op1 = T("sin", {freq:opts.freq*6, fb:0.25, mul:0.4});
+		var op2 = T("sin", {freq:opts.freq, phase:op1, mul:opts.velocity/128});
+		return env.clone().append(op2).on("ended", opts.doneAction).bang();
+	};
+
+	var master = synth;
+	var mod    = T("sin", {freq:2, add:3200, mul:800, kr:1});
+	master = T("eq", {params:{lf:[800, 0.5, -2], mf:[6400, 0.5, 4]}}, master);
+	master = T("phaser", {freq:mod, Q:2, steps:4}, master);
+	master = T("delay", {time:"BPM60 L16", fb:0.65, mix:0.25}, master)
+	
+
+	/* */
   T("delay", {time:"BPM128 L4", fb:0.65, mix:0.35}, 
     T("pan", {pos:0.2}, vcf), 
     T("pan", {pos:T("tri", {freq:"BPM64 L1", mul:0.8}).kr()}, arp)
@@ -336,7 +360,10 @@ AudioNode.prototype = {
 	var tempo = 'BPM' + (60 + TREE[0].length)
 	T("interval", {interval:tempo + " L16"}, function(count) {
 			var i = count % P1.length;
-			if (i === 0) CYM.bang();
+			if (i === 0) {
+				CYM.bang();
+				
+			}
 
 			P1[i].forEach(function(p) { p.bang(); });
 
@@ -347,10 +374,10 @@ AudioNode.prototype = {
 			}
 
 		
-			var noteNum = scale.wrapAt(P2.wrapAt(count)) + 60;
-			if (i % 2 === 0) {
-				lead.freq.linTo(noteNum.midicps() * 2, "100ms");
+			var noteNum = scale.wrapAt(P2.wrapAt(count)) + 60 
+
+			if (i % 2 === 0 || i % 3 === 0) {
+				lead.freq.linTo(noteNum.midicps(), "10ms");
 			}
-			arp.noteOn(noteNum + 24, 60);
 		}).start();
 });
