@@ -84,7 +84,7 @@ function SongAPI() {
 	this.buildNote = function(tag, depth) {
 		var volume = Math.random();
 		var inst = ''
-		if (depth == 2 || depth == 3) inst = 'lead'
+		if (depth == 1 || depth == 2) inst = 'lead'
 
 		switch(depth) {
 			case 0:
@@ -144,6 +144,29 @@ function SongAPI() {
 
 }
 
+/*
+function Pattern(){
+	var BD  = wav.slice(   0,  500).set({bang:false});
+	var SD  = wav.slice( 500, 1000).set({bang:false});
+	var HH1 = wav.slice(1000, 1500).set({bang:false, mul:0.2});
+	var HH2 = wav.slice(1500, 2000).set({bang:false, mul:0.2});
+	var CYM = wav.slice(2000).set({bang:false, mul:0.2});
+	var scale = new sc.Scale([0,1,3,7,8], 12, "Pelog");
+	this.drum = function(){
+		return [
+			[BD, HH1],
+			[HH1],
+			[HH2],
+			[],
+			[BD, SD, HH1],
+			[HH1],
+			[HH2],
+			[SD],
+		].wrapExtend(128)
+	}
+}
+*/
+
 var songAPI = new SongAPI();
 
 var handler = new Tautologistics.NodeHtmlParser.HtmlBuilder(function (error, dom) {
@@ -160,6 +183,7 @@ var parsedHTML = handler.dom;
 
 function AudioGenerator(parsedHTML) {
 	this.html = parsedHTML;
+	this.nodes = [];
 };
 
 AudioGenerator.prototype = {
@@ -167,8 +191,11 @@ AudioGenerator.prototype = {
 		for (var i = 0 ; i < this.html.length ; i++) {
 			// New nodes at depth 0
 			if (this.html[i] && this.html[i].name)
-				var n = new AudioNode(this.html[i], 0, i, false).exec()
+				var n = new AudioNode(this.html[i], 0, i, false)
+				n.exec()
+				this.nodes.push(n);
 		}
+		return this.nodes
 	}
 }
 
@@ -203,14 +230,7 @@ AudioNode.prototype = {
 		var selfi = this;
 		var numChildren = this.children.length;
 		this.loops = 0;
-		//var interval = setInterval(function() {
 		selfi.startChildren(false);
-		//}, numChildren * DELAYBETWEENCHILDREN + 1000)
-
-		/*setTimeout(function() { 
-			clearInterval(interval);
-		}, MAXLOOPLENGTH)
-		*/
 	},
 
 	startChildren: function(recurse){
@@ -227,17 +247,13 @@ AudioNode.prototype = {
 		// Determine what to play
 		var selfies = this;
 		var childNo = this.childNo
-		setTimeout(function() {
-			var note = songAPI.getNote(selfies.node.name, selfies.depth);
-			note.play();
-			console.log("Playing: child: " + childNo + " - " + selfies.node.name + " at depth: " + selfies.depth);
-		}, childNo * DELAYBETWEENCHILDREN)
+		var note = songAPI.getNote(selfies.node.name, selfies.depth);
+		note.play();
+		console.log("Playing: child: " + childNo + " - " + selfies.node.name + " at depth: " + selfies.depth);
 	},
 
 	exec: function() {
 		this.init();
-		//if (this.startChildren)
-		this.play();
 		var node = this;
 		setTimeout(function(){
 			node.setChildren();
@@ -246,6 +262,112 @@ AudioNode.prototype = {
 
 }
 
-new AudioGenerator(parsedHTML).run()
+// new AudioGenerator(parsedHTML).run()
+	var TREE = [];
+	function parse(parseHTML){
+		console.log(parseHTML);
+		var thisLevel = [];
+		_.forEach(parseHTML, function(node){
+			thisLevel.push(node);
+		})
+		TREE[0] = thisLevel;
+		_.forEach(parseHTML, function(node){
+			if (!node.name) return;
+			parseRec(node, 1);
+		})
+	}
+	
+	function parseRec(node, depth) {
+	
+		if (TREE) {
+			if (typeof(TREE[depth]) === 'undefined'){
+				TREE[depth] = [];
+			}
+			TREE[depth].push(node);
+		}
+		if (!node.children) return;
+		_.forEach(node.children, function(child){
+			if (!child.name) return;
+			console.log(child);
+			console.log(depth);
+			parseRec(child, depth+1);
+		})
+	}
+	
+	parse(parsedHTML)
+	console.log(TREE)
+
+	function drums(depth){
+		var out = [];
+		_.forEach(depth, function(node){
+			switch(node.name){
+				case 'div':
+					out.push([BD, HH1])
+					break;
+				case 'script':
+					out.push([SD])
+					break;
+				case 'a':
+					out.push([SD])
+					break;
+				case 'p':
+					out.push([HH2])
+					break;
+				case 'ul':
+					out.push([CYM])
+					break;
+				default:
+					out.push([HH1])
+			}
+		})
+		return out
+	}
+
+	var pat = drums(TREE[0])
+	var P1 = pat.wrapExtend(128);
+	/*
+  var P1 = [
+    [BD, HH1],
+    [HH1],
+    [HH2],
+    [SD],
+    [BD, SD, HH1],
+    [HH1],
+    [HH2],
+    [SD],
+  ].wrapExtend(128);
+	*/
+	
+  var P2 = sc.series(16);
+
+  var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
+  var lead = T("saw", {freq:T("param")});
+  var vcf  = T("MoogFF", {freq:2400, gain:6, mul:0.1}, lead);
+  var env  = T("perc", {r:100});
+  var arp  = T("OscGen", {wave:"sin(15)", env:env, mul:0.5});
+
+  T("delay", {time:"BPM128 L4", fb:0.65, mix:0.35}, 
+    T("pan", {pos:0.2}, vcf), 
+    T("pan", {pos:T("tri", {freq:"BPM64 L1", mul:0.8}).kr()}, arp)
+  ).play();
+
+  T("interval", {interval:"BPM128 L16"}, function(count) {
+    var i = count % P1.length;
+    if (i === 0) CYM.bang();
+
+    P1[i].forEach(function(p) { p.bang(); });
+
+    if (Math.random() < 0.015) {
+      var j = (Math.random() * P1.length)|0;
+      P1.wrapSwap(i, j);
+      P2.wrapSwap(i, j);
+    }
+
+    var noteNum = scale.wrapAt(P2.wrapAt(count)) + 60;
+    if (i % 2 === 0) {
+      lead.freq.linTo(noteNum.midicps() * 2, "100ms");
+    }
+    arp.noteOn(noteNum + 24, 60);
+  }).start();
 
 });
