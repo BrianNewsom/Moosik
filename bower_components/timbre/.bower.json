@@ -1,0 +1,13 @@
+{
+  "name": "timbre",
+  "_cacheHeaders": {
+    "ETag": "\"441c06bae452647ac5255dedfd6b6406fa6ed730\"",
+    "Content-Length": "364818",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:441c06bae",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/mohayonao/timbre.js/master/timbre.dev.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/mohayonao/timbre.js/master/timbre.dev.js"
+}

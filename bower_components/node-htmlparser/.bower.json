@@ -1,0 +1,13 @@
+{
+  "name": "node-htmlparser",
+  "_cacheHeaders": {
+    "ETag": "\"04668e065455fa06e09d1fdd6c1ebee61df755bc\"",
+    "Content-Length": "38066",
+    "Content-Type": "text/plain; charset=utf-8"
+  },
+  "_release": "e-tag:04668e065",
+  "main": "index.js",
+  "_source": "https://raw.githubusercontent.com/tautologistics/node-htmlparser/master/lib/htmlparser.js",
+  "_target": "*",
+  "_originalSource": "https://raw.githubusercontent.com/tautologistics/node-htmlparser/master/lib/htmlparser.js"
+}
