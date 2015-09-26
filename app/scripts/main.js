@@ -46,8 +46,8 @@ function Note(song, volume) {
 		/*
     this.applyDelay(1250,0.4,0.1);
     this.applyReverb(0.9,0.9,0.25);
-    this.applyRelease(5000);
 		*/
+    this.applyRelease(5000);
     return this.tone;
 }
 
@@ -70,18 +70,16 @@ function SongAPI() {
 var songAPI = new SongAPI();
 
 var handler = new Tautologistics.NodeHtmlParser.HtmlBuilder(function (error, dom) {
-    if (error)
-				console.log(error)
-    else
-				console.log('successfully parsed')
+	if (error)
+		console.log(error)
+	else
+		console.log('successfully parsed')
 });
 
 var parser = new Tautologistics.NodeHtmlParser.Parser(handler);
 parser.parseComplete(document.body.innerHTML);
-// console.log(JSON.stringify(handler.dom, null, 2));
 
 var parsedHTML = handler.dom;
-
 
 function AudioGenerator(parsedHTML) {
 	this.html = parsedHTML;
@@ -91,16 +89,22 @@ AudioGenerator.prototype = {
 	run: function() {
 		for (var i = 0 ; i < this.html.length ; i++) {
 			// New nodes at depth 0
-			var n = new AudioNode(this.html[i], 0).exec()
+			var n = new AudioNode(this.html[i], 0, i).exec()
 		}
 	}
 }
 
-function AudioNode(node, depth) {
+function AudioNode(node, depth, childNo) {
 	this.children = [];
 	this.node = node;
 	this.depth = depth;
+	// Child number
+	this.childNo = childNo;
 }
+
+// in ms
+var DELAYBETWEENLAYERS = 4000;
+var DELAYBETWEENCHILDREN = 250;
 
 AudioNode.prototype = {
 	init: function(){
@@ -117,17 +121,20 @@ AudioNode.prototype = {
 	setChildren: function(){
 		if (this.children.length && this.children[0]){
 			for (var i = 0 ; i < this.children.length ; i++){
-				if (this.children[i]){
-					new AudioNode(this.children[i], this.depth+1).exec();
-				}
+				var child = this.children[i]
+				new AudioNode(child, this.depth+1, i).exec();
 			}
 		}
 	},
 	play: function(){
 		// Determine what to play
-		var note = songAPI.getNote();
-		note.play();
-		console.log("Playing: " + this.node.name + " at depth: " + this.depth);
+		var selfies = this;
+		var childNo = this.childNo
+		setTimeout(function() {
+			var note = songAPI.getNote();
+			note.play();
+			console.log("Playing: child: " + childNo + " - " + selfies.node.name + " at depth: " + selfies.depth);
+		}, childNo * DELAYBETWEENCHILDREN)
 	},
 	exec: function() {
 		this.init();
@@ -135,7 +142,7 @@ AudioNode.prototype = {
 		var node = this;
 		setTimeout(function(){
 			node.setChildren();
-		}, 1000)
+		}, DELAYBETWEENLAYERS)
 	}
 }
 
