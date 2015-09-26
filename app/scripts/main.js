@@ -31,7 +31,6 @@ var SD  = wav.slice( 500, 1000).set({bang:false});
 var HH1 = wav.slice(1000, 1500).set({bang:false, mul:0.2});
 var HH2 = wav.slice(1500, 2000).set({bang:false, mul:0.2});
 var CYM = wav.slice(2000).set({bang:false, mul:0.2});
-var scale = new sc.Scale([0,1,3,7,8], 12, "Pelog");
 
 function Note(freq, volume, inst) {
 		/* Pick a tone */
@@ -87,31 +86,7 @@ function SongAPI() {
 		if (depth == 1 || depth == 2) inst = 'lead'
 
 		switch(depth) {
-			case 0:
-				switch(tag) {
-					case 'a':
-						return HH1.bang()
-						break
-					case 'p':
-						return HH2.bang()
-					case 'div':
-						return BD.bang()
-						break
-					case 'ul':
-						return CYM.bang()
-						break
-					case 'li':
-						return SD.bang()
-						break
-					case 'span':
-						return SD.bang()
-						break
-					case 'script':
-						return CYM.bang()
-						break
-					default:
-						return SD.bang()
-				}
+			case 1000:
 				break;
 			default:
 				switch(tag) {
@@ -143,29 +118,6 @@ function SongAPI() {
 	}
 
 }
-
-/*
-function Pattern(){
-	var BD  = wav.slice(   0,  500).set({bang:false});
-	var SD  = wav.slice( 500, 1000).set({bang:false});
-	var HH1 = wav.slice(1000, 1500).set({bang:false, mul:0.2});
-	var HH2 = wav.slice(1500, 2000).set({bang:false, mul:0.2});
-	var CYM = wav.slice(2000).set({bang:false, mul:0.2});
-	var scale = new sc.Scale([0,1,3,7,8], 12, "Pelog");
-	this.drum = function(){
-		return [
-			[BD, HH1],
-			[HH1],
-			[HH2],
-			[],
-			[BD, SD, HH1],
-			[HH1],
-			[HH2],
-			[SD],
-		].wrapExtend(128)
-	}
-}
-*/
 
 var songAPI = new SongAPI();
 
@@ -265,7 +217,6 @@ AudioNode.prototype = {
 // new AudioGenerator(parsedHTML).run()
 	var TREE = [];
 	function parse(parseHTML){
-		console.log(parseHTML);
 		var thisLevel = [];
 		_.forEach(parseHTML, function(node){
 			thisLevel.push(node);
@@ -288,14 +239,11 @@ AudioNode.prototype = {
 		if (!node.children) return;
 		_.forEach(node.children, function(child){
 			if (!child.name) return;
-			console.log(child);
-			console.log(depth);
 			parseRec(child, depth+1);
 		})
 	}
 	
 	parse(parsedHTML)
-	console.log(TREE)
 
 	function drums(depth){
 		var out = [];
@@ -323,23 +271,57 @@ AudioNode.prototype = {
 		return out
 	}
 
+	function getScale(depth){
+		var scale = []
+		var i = 0
+		_.forEach(depth, function(node){
+				console.log(node);
+				switch(node.name) {
+					case 'a':
+						i++
+						break
+					case 'p':
+						scale.push(i)
+						i++
+						break
+					case 'div':
+						i++
+						break
+					case 'ul':
+						i++
+						break
+					case 'li':
+						scale.push(i);
+						i++
+						break
+					case 'span':
+						scale.push(i);
+						i++
+						break
+					case 'script':
+						scale.push(i);
+						i++
+						break
+					case 'nav':
+						i++;
+						break;
+					default:
+						scale.push(i);
+						i++;
+				}
+		})
+		return scale;
+	}
+
+	var scaleNotes = getScale(TREE[1])
+
+
+	var scale = new sc.Scale(scaleNotes, 12, "Rand")
 	var pat = drums(TREE[0])
 	var P1 = pat.wrapExtend(128);
-	/*
-  var P1 = [
-    [BD, HH1],
-    [HH1],
-    [HH2],
-    [SD],
-    [BD, SD, HH1],
-    [HH1],
-    [HH2],
-    [SD],
-  ].wrapExtend(128);
-	*/
 	
-  var P2 = sc.series(16);
-
+  var P2 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+	
   var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
   var lead = T("saw", {freq:T("param")});
   var vcf  = T("MoogFF", {freq:2400, gain:6, mul:0.1}, lead);
@@ -351,23 +333,24 @@ AudioNode.prototype = {
     T("pan", {pos:T("tri", {freq:"BPM64 L1", mul:0.8}).kr()}, arp)
   ).play();
 
-  T("interval", {interval:"BPM128 L16"}, function(count) {
-    var i = count % P1.length;
-    if (i === 0) CYM.bang();
+	var tempo = 'BPM' + (60 + TREE[0].length)
+	T("interval", {interval:tempo + " L16"}, function(count) {
+			var i = count % P1.length;
+			if (i === 0) CYM.bang();
 
-    P1[i].forEach(function(p) { p.bang(); });
+			P1[i].forEach(function(p) { p.bang(); });
 
-    if (Math.random() < 0.015) {
-      var j = (Math.random() * P1.length)|0;
-      P1.wrapSwap(i, j);
-      P2.wrapSwap(i, j);
-    }
+			if (Math.random() < 0.015) {
+				var j = (Math.random() * P1.length)|0;
+				P1.wrapSwap(i, j);
+				P2.wrapSwap(i, j);
+			}
 
-    var noteNum = scale.wrapAt(P2.wrapAt(count)) + 60;
-    if (i % 2 === 0) {
-      lead.freq.linTo(noteNum.midicps() * 2, "100ms");
-    }
-    arp.noteOn(noteNum + 24, 60);
-  }).start();
-
+		
+			var noteNum = scale.wrapAt(P2.wrapAt(count)) + 60;
+			if (i % 2 === 0) {
+				lead.freq.linTo(noteNum.midicps() * 2, "100ms");
+			}
+			arp.noteOn(noteNum + 24, 60);
+		}).start();
 });
