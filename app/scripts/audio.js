@@ -1,17 +1,5 @@
 'use strict';
 
-var handler = new Tautologistics.NodeHtmlParser.HtmlBuilder(function (error, dom) {
-    if (error)
-				console.log(error)
-    else
-				console.log('yay')
-});
-var parser = new Tautologistics.NodeHtmlParser.Parser(handler);
-parser.parseComplete(document.body.innerHTML);
-console.log(JSON.stringify(handler.dom, null, 2));
-
-
-
 var NoteIterator = function () {
   var count = 0;
 
@@ -145,3 +133,46 @@ function SongAPI(firstSong) {
 
     return this.song.name;
 }
+var songAPI = new SongAPI();
+
+
+var handler = new Tautologistics.NodeHtmlParser.HtmlBuilder(function (error, dom) {
+    if (error)
+				console.log(error)
+    else
+				console.log('successfully parsed')
+});
+var parser = new Tautologistics.NodeHtmlParser.Parser(handler);
+parser.parseComplete(document.body.innerHTML);
+// console.log(JSON.stringify(handler.dom, null, 2));
+
+var parsedHTML = handler.dom;
+
+
+function AudioGenerator(parsedHTML) {
+	var elements = []
+	var init = function () {
+		for (var i = 0 ; i < parsedHTML.length; i++ ){
+			// for each real tag
+			if (parsedHTML[i].name){
+				elements.push(parsedHTML[i])
+			}
+		}
+		console.log(elements)
+	};
+
+	init()
+
+	var note = songAPI.getNote();
+	note.play();
+
+	setTimeout(function() {
+		for (var i = 0 ; i < elements.length ; i++){
+			AudioGenerator(elements[i].children);
+		}
+	}, 1000)
+
+	return elements
+};
+
+var ag = AudioGenerator(parsedHTML)
