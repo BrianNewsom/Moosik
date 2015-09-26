@@ -33,8 +33,16 @@ var HH2 = wav.slice(1500, 2000).set({bang:false, mul:0.2});
 var CYM = wav.slice(2000).set({bang:false, mul:0.2});
 var scale = new sc.Scale([0,1,3,7,8], 12, "Pelog");
 
-function Note(freq, volume) {
-    this.tone = new T('pluck', {freq:freq, mul:volume}).bang();
+function Note(freq, volume, inst) {
+		/* Pick a tone */
+		switch (inst){
+			case 'lead':
+				this.tone = T("saw", {freq:T("param"), mul: volume * 0.3 });
+				this.tone.freq.linTo(freq, "100ms");
+				break;
+			default:
+				this.tone = new T('pluck', {freq:freq, mul:volume}).bang();
+		}
 
     this.applyDelay = function(_time,_fb,_mix) {
         // Applies Delay to this.tone
@@ -75,6 +83,8 @@ function SongAPI() {
 	
 	this.buildNote = function(tag, depth) {
 		var volume = Math.random();
+		var inst = ''
+		if (depth == 2 || depth == 3) inst = 'lead'
 
 		switch(depth) {
 			case 0:
@@ -106,28 +116,28 @@ function SongAPI() {
 			default:
 				switch(tag) {
 					case 'a':
-						return new Note(notesMap['E'], volume);
+						return new Note(notesMap['E'], volume, inst);
 						break
 					case 'p':
-						return new Note(notesMap['D'], volume);
+						return new Note(notesMap['D'], volume, inst);
 						break
 					case 'div':
-						return new Note(notesMap['G'], volume);
+						return new Note(notesMap['G'], volume, inst);
 						break
 					case 'ul':
-						return new Note(notesMap['G'], volume);
+						return new Note(notesMap['G'], volume, inst);
 						break
 					case 'li':
-						return new Note(notesMap['G'], volume);
+						return new Note(notesMap['G'], volume, inst);
 						break
 					case 'span':
-						return new Note(notesMap['G'], volume);
+						return new Note(notesMap['G'], volume, inst);
 						break
 					case 'script':
-						return new Note(notesMap['G'], volume);
+						return new Note(notesMap['G'], volume, inst);
 						break
 					default:
-						return new Note(notesMap['A'], volume);
+						return new Note(notesMap['A'], volume, inst);
 				}
 		}
 	}
@@ -157,22 +167,25 @@ AudioGenerator.prototype = {
 		for (var i = 0 ; i < this.html.length ; i++) {
 			// New nodes at depth 0
 			if (this.html[i] && this.html[i].name)
-				var n = new AudioNode(this.html[i], 0, i).exec()
+				var n = new AudioNode(this.html[i], 0, i, false).exec()
 		}
 	}
 }
 
-function AudioNode(node, depth, childNo) {
+function AudioNode(node, depth, childNo, playChildren) {
 	this.children = [];
 	this.node = node;
 	this.depth = depth;
 	// Child number
 	this.childNo = childNo;
+	this.playChildren = playChildren || true;
+	this.replayTime = 20000;
 }
 
 // in ms
 var DELAYBETWEENLAYERS = 4000;
 var DELAYBETWEENCHILDREN = 250;
+var MAXLOOPLENGTH = 20000;
 
 AudioNode.prototype = {
 	init: function(){
@@ -187,13 +200,29 @@ AudioNode.prototype = {
 	},
 	// Play nested layers below
 	setChildren: function(){
-		if (this.children.length && this.children[0]){
-			for (var i = 0 ; i < this.children.length ; i++){
-				var child = this.children[i]
-				new AudioNode(child, this.depth+1, i).exec();
+		var selfi = this;
+		var numChildren = this.children.length;
+		this.loops = 0;
+		//var interval = setInterval(function() {
+		selfi.startChildren(false);
+		//}, numChildren * DELAYBETWEENCHILDREN + 1000)
+
+		/*setTimeout(function() { 
+			clearInterval(interval);
+		}, MAXLOOPLENGTH)
+		*/
+	},
+
+	startChildren: function(recurse){
+		var node = this;
+		if (node.children.length && node.children[0] && node.playChildren){
+			for (var i = 0 ; i < node.children.length ; i++){
+				var child = node.children[i]
+				new AudioNode(child, node.depth+1, i, recurse).exec();
 			}
 		}
 	},
+
 	play: function(){
 		// Determine what to play
 		var selfies = this;
@@ -204,14 +233,17 @@ AudioNode.prototype = {
 			console.log("Playing: child: " + childNo + " - " + selfies.node.name + " at depth: " + selfies.depth);
 		}, childNo * DELAYBETWEENCHILDREN)
 	},
+
 	exec: function() {
 		this.init();
+		//if (this.startChildren)
 		this.play();
 		var node = this;
 		setTimeout(function(){
 			node.setChildren();
 		}, DELAYBETWEENLAYERS)
 	}
+
 }
 
 new AudioGenerator(parsedHTML).run()
