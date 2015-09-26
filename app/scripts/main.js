@@ -23,8 +23,8 @@ var pentatonic = {
 };
 
 
-function Note(song, volume) {
-    this.tone = new T('pluck', {freq:song.notes[song.iterator()], mul:volume}).bang();
+function Note(freq, volume) {
+    this.tone = new T('pluck', {freq:freq, mul:volume}).bang();
 
     this.applyDelay = function(_time,_fb,_mix) {
         // Applies Delay to this.tone
@@ -47,24 +47,51 @@ function Note(song, volume) {
     this.applyDelay(1250,0.4,0.1);
     this.applyReverb(0.9,0.9,0.25);
 		*/
+
     this.applyRelease(5000);
     return this.tone;
 }
 
 function SongAPI() {
-    this.song = pentatonic; // Initial song to play
-    this.notesPlayed = 0;
-    var self = this;
+	this.notesPlayed = 0;
+	var self = this;
 
-    this.getNote = function() {
-        // Pulls note from current song, calls rotate logic
-        var volume = Math.random();
-        var note = new Note(this.song, volume);
-        this.notesPlayed++;
-        return note;
-    };
+	this.getNote = function(tag, depth) {
+		// Get note based on element
+		var note = this.buildNote(tag, depth)
+		this.notesPlayed++;
+		return note;
+	};
+	
+	this.buildNote = function(tag, depth) {
+		var volume = Math.random();
+		switch(tag) {
+			case 'a':
+				return new Note(notesMap['E'], volume);
+				break
+			case 'p':
+				return new Note(notesMap['D'], volume);
+				break
+			case 'div':
+				return new Note(notesMap['G'], volume);
+				break
+			case 'ul':
+				return new Note(notesMap['G'], volume);
+				break
+			case 'li':
+				return new Note(notesMap['G'], volume);
+				break
+			case 'span':
+				return new Note(notesMap['G'], volume);
+				break
+			case 'script':
+				return new Note(notesMap['G'], volume);
+				break
+			default:
+				return new Note(notesMap['A'], volume);
+		}
+	}
 
-    return this.song.name;
 }
 
 var songAPI = new SongAPI();
@@ -89,7 +116,8 @@ AudioGenerator.prototype = {
 	run: function() {
 		for (var i = 0 ; i < this.html.length ; i++) {
 			// New nodes at depth 0
-			var n = new AudioNode(this.html[i], 0, i).exec()
+			if (this.html[i] && this.html[i].name)
+				var n = new AudioNode(this.html[i], 0, i).exec()
 		}
 	}
 }
@@ -131,7 +159,7 @@ AudioNode.prototype = {
 		var selfies = this;
 		var childNo = this.childNo
 		setTimeout(function() {
-			var note = songAPI.getNote();
+			var note = songAPI.getNote(selfies.node.name, selfies.depth);
 			note.play();
 			console.log("Playing: child: " + childNo + " - " + selfies.node.name + " at depth: " + selfies.depth);
 		}, childNo * DELAYBETWEENCHILDREN)
