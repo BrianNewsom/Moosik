@@ -21,13 +21,26 @@ This will include JQuery and a few audio libraries on your website, but will not
 other than providing tunes for all of your viewers!
 
 ### I just want to play
-The project can be injected into any site using JQuery that allows script injection.  By simply opening the developers
-console and typing 
+
+#### Chrome Extension!
+We've bundled Moosik as a chrome extension so you can experience it's joys on every website.
+
+Download Moosik.crx from the home directory of this repository, and drag it into your window on 
+```
+chrome://extensions
+```
+Our JS will now be appended to every site, playing a new piece for each page you visit.
+
+#### I'm a Hacker
+Run the following JS in the developers console, and you can include our script on any site with jquery.
 ```
 $('html').append('<script src="//hackcu-win.github.io/Moosik/scripts/scripts.min.js"></script>')
 ```
-you can include **our** script on **anyone's** site.  This will let you hear different variations and all sorts
-of beautiful Moosikal creations.
+you can include our script on **almost anyone's** site.  This will let you hear different variations and all sorts
+of beautiful Moosikal creations without having to download anything.
+
+### Sad News
+Some sites, e.g. Facebook protect their content or do not allow injection of JS files.  Unfortunately Moosik is currently unable to make music on these few sites.
 
 Enjoy!
 
