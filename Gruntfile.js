@@ -26,7 +26,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 
     'gh-pages': {
-      options: { base: 'dist' },
+      options: { base: 'app' },
       src: ['**']
     },
 
@@ -170,6 +170,7 @@ module.exports = function (grunt) {
         files: {
           src: [
             '<%= config.dist %>/scripts/{,*/}*.js',
+            '<%= config.dist %>/audio/{,*/}*.*',
             '<%= config.dist %>/styles/{,*/}*.css',
             '<%= config.dist %>/images/{,*/}*.*',
             '<%= config.dist %>/styles/fonts/{,*/}*.*',
@@ -273,6 +274,7 @@ module.exports = function (grunt) {
               src: [
                 '*.{ico,png,txt}',
                 'images/{,*/}*.webp',
+								'audio/{,*/}*.*',
                 '{,*/}*.html',
                 'scripts/{,*/}*.js',
                 'styles/**/*'
@@ -324,7 +326,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
 			'uglify',
-      'wiredep',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -339,7 +340,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'wiredep',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',

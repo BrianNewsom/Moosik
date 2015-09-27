@@ -1,7 +1,7 @@
 $(document).ready(function(){
 'use strict';
 
-T("audio").load("/bower_components/timbre.js/misc/audio/drumkit.wav", function() {
+T("audio").load("audio/drumkit.wav", function() {
 var wav = this;
 
 var RandIterator = function() {
