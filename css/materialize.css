@@ -1967,6 +1967,7 @@ html {
   box-sizing: border-box; }
 
 *, *:before, *:after {
+  padding-bottom: 10px;
   box-sizing: inherit; }
 
 ul {
