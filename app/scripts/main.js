@@ -1,3 +1,4 @@
+$(document).ready(function(){
 'use strict';
 
 T("audio").load("/bower_components/timbre.js/misc/audio/drumkit.wav", function() {
@@ -83,7 +84,6 @@ function SongAPI() {
 	this.buildNote = function(tag, depth) {
 		var volume = Math.random();
 		var inst = ''
-		if (depth == 1 || depth == 2) inst = 'lead'
 
 		switch(depth) {
 			case 1000:
@@ -362,8 +362,15 @@ AudioNode.prototype = {
 			var i = count % P1.length;
 			if (i === 0) {
 				CYM.bang();
-				
 			}
+
+			/*
+			if (i % 3) {
+				songAPI.getNote(TREE[1][i]).play()
+			}
+			*/
+			
+			
 
 			P1[i].forEach(function(p) { p.bang(); });
 
@@ -380,4 +387,5 @@ AudioNode.prototype = {
 				lead.freq.linTo(noteNum.midicps(), "10ms");
 			}
 		}).start();
+});
 });

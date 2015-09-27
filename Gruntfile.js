@@ -65,6 +65,26 @@ module.exports = function (grunt) {
       }
     },
 
+		uglify: {
+			all_src : {
+				options : {
+					sourceMap : true,
+					sourceMapName : 'sourceMap.map'
+				},
+				src : [
+						'bower_components/jquery/dist/jquery.min.js',
+						'bower_components/lodash/dist/lodash.compat.js',
+						'bower_components/node-htmlparser/index.js',
+						'bower_components/timbre/index.js',
+						'bower_components/timbre/subcollider.js',
+						'bower_components/timbre.js/timbre.dev.js',
+						'bower_components/timbre.js/MoogFF.js',
+						'app/scripts/main.js'
+				], 
+				dest : 'app/scripts/scripts.min.js'
+			}
+		},
+
     // The actual grunt server settings
     connect: {
       options: {
@@ -240,19 +260,6 @@ module.exports = function (grunt) {
     //     }
     //   }
     // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/scripts/scripts.js': [
-    //         '<%= config.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -316,6 +323,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+			'uglify',
       'wiredep',
       'concurrent:server',
       'autoprefixer',
