@@ -1,91 +1,103 @@
-<!doctype html>
-<html class="no-js">
-  <head>
-    <meta charset="utf-8">
-    <title>Music Application Example</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="http://www.colorado.edu/sites/default/files/favicon.png" type="image/png" />
-		<link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css" />
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
+<DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+  <title>Moosik</title>
 
-  </head>
-  <body>
+  <!-- Favicon -->
 
-    <!-- Static navbar -->
-    <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Default</a></li>
-            <li class="active"><a href="./">Static top <span class="sr-only">(current)</span></a></li>
-            <li><a href="../navbar-fixed-top/">Fixed top</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
+  <!-- CSS  -->
+  <link href="stylesheets/normalize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="stylesheets/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="stylesheets/select2.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="stylesheets/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <!-- Open Graph -->
+   <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet' />
+</head>
+<body>
+  <section id="hello" class="hello-opener">
+    <nav class="navi-skrollz" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="http://leif-waldner@github.io" class="brand-logo"><img src="img/mooselogo.jpg"></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#hello">Hello</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
       </div>
     </nav>
-
-
-    <div class="container">
-
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <h1>Navbar example</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
+    <nav class="origi-nav" role="navigation">
+      <div class="nav-wrapper container">
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#hello">Hello</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </div>       
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+      <div class="container">
+        <div class="center lhd-logo">
+          <img src="img/mooselogo.jpg" alt="Local Hack Day 2k15">
+	</div>
+        <div class="row center intro col s12">
+          <h4 style="color:black" class="header col s12 light lhd-details-0"><b>Moosik.</b></h4>
+          <h5 style="color:black" class="header col s12 light lhd-details-0">See what your website sounds like!</h5>
+        </div>
+        <div class="row center continue hide-on-small-only">
+          <a href="#about"><i class="fa fa-caret-down" style="color:black"></i></a>
+        </div>
       </div>
+    </div>
+  </section>
 
-    </div> <!-- /container -->
+
+  <section id="about" class="bg-light-gray">
+    <div class="bottom-overlay">
+      <div class="container">
+        <div class="row">
+          <div class="intro col s12">
+            <h4 class="center-align">About</h4>
+            <h3 class="center-align">What is Moosik?</h3>
+          </div>
+
+          <div class="line-divider col s12">
+            <div class="line-twerk">
+            </div>
+          </div>
+          <div class="about-details center-align col s12">
+            <p>Moosik is an artsy way to create music from your website code. We import the HTML parse to javascript and recursively play sounds from the HTML-elements.</p>
+          </div>
+          <div class="join-btn center col s12">
+            <p>
+                <a id="attendee-signup" class="join-button">Run Moosik on this website!</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+  <!--  Scripts-->
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  </body>
+  ga('create', 'UA-43729070-1', 'auto');
+  ga('send', 'pageview');
 
-	
-	<!--
-
-	<script src="bower_components/lodash/dist/lodash.compat.js"></script>
-	<script src="bower_components/node-htmlparser/index.js"></script>
-	<script src="bower_components/timbre.js/timbre.dev.js"></script>
-	<script src="bower_components/timbre/subcollider.js"></script>
-	<script src="bower_components/timbre/index.js"></script>
-	<script src="bower_components/timbre.js/MoogFF.js"></script>
-	-->
-	<script src="scripts/scripts.min.js"></script>
+  </script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+  <script src="scripts/materialize.js"></script>
+  <script src="scripts/localhackday.js"></script>
+  <script src="scripts/select2.js"></script>
+  <script src="scripts/init.js"></script>
+</body>
 </html>
+
