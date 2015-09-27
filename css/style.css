@@ -1,0 +1,801 @@
+/* Custom Stylesheet */
+
+.icon-block {
+  padding: 0 15px;
+}
+
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  position: relative;
+  font-family: 'Lato', sans-serif;
+  background: #f8ffff;
+}
+
+nav {
+  background: transparent !important;
+  box-shadow: none;
+}
+
+nav .brand-logo, .brand-logo img {
+  height: 100%;
+}
+
+nav a:hover {
+  border-bottom: 1px solid #e9be00;
+  transition: all ease 0.8s;
+}
+
+.side-nav {
+  background-color: #1E1F20;
+  border-right: 1px solid #262A2C;
+}
+
+.side-nav li {
+  padding: 0;
+}
+
+.side-nav li:hover {
+  background: #000;
+}
+
+.side-nav a {
+  padding: 0 20px;
+  color: #9CA1A1;
+}
+
+.sign-up .side-nav a {
+  color: #9CA1A1 !important;
+}
+
+.side-nav a:hover {
+  background: #000;
+}
+
+.side-nav span {
+    float: right;
+}
+
+.side-nav span .fa {
+    font-size: 16px;
+    line-height: 64px;
+}
+
+.navi-skrollz {
+  background: #e0e0e0 !important;
+  position: fixed;
+  z-index: 9999;
+}
+.origi-nav {
+  color: #000
+}
+
+.navi-skrollz a {
+    color: #000;
+}
+
+.brand-logo img {
+  padding: 20px;
+}
+
+.hello-opener {
+  position: relative;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background: url(../img/Flatirons.jpg) top left;
+  background-repeat: no-repeat;
+}
+
+.center.lhd-logo {
+  margin: auto;
+}
+
+.lhd-logo img {
+  max-width: 100%;
+}
+
+.lhd-details-0 {
+  color: #fff;
+  font-weight: 300;
+  margin: 15px 0;
+  font-size: 26px;
+}
+.lhd-details-1 {
+  color: #fff;
+  font-weight: 300;
+  margin: 10px 0;
+  font-size: 19px;
+}
+
+h6.lhd-event-date {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.lhd-event-date span {
+    padding: 0 5px;
+}
+
+.lhd-button {
+  border: 1px solid #e9be00;
+  border-radius: 2px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 20px;
+  padding: 15px 50px;
+  transition: all ease 0.8s;
+}
+
+.lhd-button:hover {
+  background: #e9be00;
+}
+
+.continue .fa {
+    font-size: 48px;
+    color: #fff;
+}
+
+.continue a {
+    display: block;
+    width: 48px;
+    margin: auto;
+    padding-top: 35px;
+}
+
+
+
+/** Map Section **/
+
+#map {
+  width: 100%;
+  height: 500px;
+}
+
+
+/** About Section **/
+
+.div-spacer {
+  height: 1px;
+}
+
+.line-twerk {
+  height: 2px;
+  background: #e9be00;
+  width: 87px;
+  margin: auto;
+}
+
+.about-details p {
+    color: #4a4d4d;
+    font-size: 23px;
+    line-height: 2em;
+    font-weight: 300;
+    padding-bottom: 50px;
+}
+
+.intro h4 {
+    color: #adb1b1;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    padding-top: 45px;
+}
+
+.intro h3 {
+    color: #2c2d2d;
+    font-weight: 300;
+    font-size: 48px;
+    padding-bottom: 31px;
+    letter-spacing: 2px;
+}
+
+.about-body {
+}
+
+/* Logo Section */
+
+#portfolio .portfolio-item {
+  margin: 0 0 15px;
+  right: 0;
+  opacity: 0.4;
+}
+#portfolio .portfolio-item:hover {
+  opacity: 1;
+}
+#portfolio * {
+  z-index: 2;
+}
+@media (min-width: 767px) {
+  #portfolio .portfolio-item {
+    margin: 0 0 30px;
+  }
+}
+.bg-light-gray {
+  background-color: #e0e0e0;
+}
+
+
+/* Testimonials */
+
+.ts-body {
+  background: #05232d;
+}
+
+.ts-body .bottom-overlay {
+    background: linear-gradient(to bottom,rgba(5,35,45,0) 64%,rgba(39,76,89,0.1) 74%,rgba(248,255,255,1) 148%);
+    position: relative;
+    height: 100%;
+    min-height: 100%;
+    padding: 60px 0;
+}
+
+.ts-body .intro h4 {
+    color: #eaf5f5;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    padding-top: 100px;
+}
+
+.ts-body .intro h3 {
+    color: #f6ffff;
+    font-weight: 300;
+    font-size: 48px;
+    padding-bottom: 31px;
+    letter-spacing: 2px;
+}
+
+.hacker-test {
+    margin: 64px 0 90px 0;
+}
+
+.hacker-logo {
+    padding: 40px 0;
+    height: 180px;
+}
+
+.hacker-logo.hacktx {
+  background: url(../img/hacktx.png) no-repeat center center;
+  background-size: 205px;
+}
+
+.hacker-logo.vandyhacks {
+  background: url(../img/vandyhacks.png) no-repeat center center;
+  background-size: 100px;
+}
+
+.hacker-logo.hackbca {
+  background: url(../img/hackbca.png) no-repeat center center;
+  background-size: 200px;
+}
+
+
+.statement p {
+    color: #f6ffff;
+    font-size: 16px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 36px;
+    padding-top: 25px;
+}
+
+.hacker-org {
+    padding: 20px 0;
+}
+
+.hacker-org h5 {
+    color: #f8ffff;
+    font-size: 16px;
+    margin: 4px 0;
+}
+
+.hacker-org h6 {
+    color: #56d6c2;
+    font-size: 14px;
+    margin: 4px 0px;
+}
+
+.hacker-test .line-twerk {
+  width: 60px;
+}
+
+.hacker-profile {
+    
+    float: left;
+}
+
+.hacker-name {
+    float: left;
+    padding-left: 18px;
+}
+
+.hacker-profile img {
+    max-width: 100%;
+    width: 78px;
+    border-radius: 200px;
+}
+
+/* Map */
+.map .leaflet-bottom.leaflet-right {
+    display: none !important;
+}
+
+.map .leaflet-top.leaflet-left {
+    display: none !important;
+}
+
+.map .leaflet-bottom.leaflet-left {
+    display: none !important;
+}
+
+.map .top-overlay {
+      background: linear-gradient(to top,rgba(245,240,238,0) 0%,rgba(245,240,238,0.1) 75%,rgba(245,240,238,1) 100%);
+      position: relative;
+      height: 100%;
+      min-height: 100%;
+      margin-bottom: -5px;
+  }
+
+
+/* Pictures */
+.picture-box {
+    width: 33.3333%;
+    float: left;
+}
+
+.picture-box img {
+    max-width: 100%;
+    vertical-align: top;
+}
+
+.pictures {
+    position: relative;
+}
+
+.picture-panel {
+    position: relative;
+    min-height: 100%;
+}
+
+/* Join Us */
+
+#join {
+  position: relative;
+  padding-bottom: 8em;
+}
+
+.join .about-details p {
+  padding-bottom: 20px;
+}
+.join-button {
+  background: #e9be00;
+  border-radius: 2px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 20px;
+  padding: 20px 50px;
+  transition: all ease 0.8s;
+  margin: 0 10px;
+}
+
+.join-button:hover {
+  opacity: 0.7;
+}
+
+#code_of_conduct {
+  padding-bottom: 1em;
+  margin: 0;
+}
+.conduct-button {
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 20px;
+  padding: 15px 50px;
+  transition: all ease 0.8s;
+}
+
+.conduct-bg {
+  background: gray;
+  text-align:center;
+  padding-bottom: 20px;
+}
+
+/*Footer*/
+footer.page-footer {
+  padding: 20px;
+  margin: 0;
+  background: #061a21;
+}
+
+footer.page-footer .footer-copyright {
+  background: transparent;
+}
+
+.mlh-logo a {
+    display: block;
+}
+
+.mlh-logo img {
+    width: 90px;
+}
+
+.socmed-bar li {
+    display: inline-block;
+}
+
+.socmed-bar {
+    text-align: right;
+}
+
+.socmed-bar ul {
+    margin: 0;
+}
+
+.socmed-bar a {
+    padding: 20px;
+}
+
+.socmed-bar .fa {
+    color: #fff;
+    font-size: 44px;
+    width: 18px;
+    height: 18px;
+}
+
+/* Sign Up Page */
+
+/** Sign Up Header **/
+
+.sign-up .hello-opener {
+    background-image: none;
+}
+
+.sign-up .origi-nav {
+  background: #e0e0ee !important;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  position: fixed;
+  z-index: 9999;
+}
+
+.sign-up .origi-nav a {
+  color: #fff;
+}
+
+.sign-up .hello-opener {
+  height: 0;
+  min-height: 0;
+}
+
+/** Schedule Section **/
+.sched-body {
+  padding: 160px 0;
+}
+
+.intro-panel {
+    margin-bottom: 80px;
+}
+
+.sched-panel {
+    border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+.side-a {
+    border-right: 1px solid rgba(0,0,0,0.2);
+}
+
+.side-a, .side-b {
+    padding: 0 !important;
+}
+
+.side-cell {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.side-cell h6 {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #adb1b1;
+    padding-top: 21px;
+}
+
+.side-a .side-cell {
+    padding-right: 18px;
+    padding-bottom: 18px;
+}
+
+.side-b .side-cell {
+    padding-left: 18px;
+    padding-bottom: 18px;
+}
+
+.side-cell .line-twerk {
+    width: 55px;
+    display: block;
+    float: left;
+}
+
+h5.cell-title {
+    padding-bottom: 15px;
+}
+
+.cell-desc {
+    padding-top: 15px;
+}
+
+.cell-desc p {
+    line-height: 31px;
+    color: #4e5050;
+}
+
+/** FAQ Section **/
+
+.faq-body {
+  background: #effbfb;
+  padding: 100px 0;
+}
+
+.faq-statement {
+    margin-top: 70px;
+    padding-top: 250px;
+}
+
+.faq-statement div {
+  margin-bottom: 35px;
+}
+
+.faq-statement h6, .faq-list h6 , .faq-questions h6 {
+    line-height: 31px;
+    color: #939d9d;
+    font-size: 22px;
+}
+
+.faq-statement p, .faq-questions p{
+    color: #1f2929;
+    font-weight: 300;
+    line-height: 30px;
+    font-size: 16px;
+}
+
+
+.faq-list li {
+    list-style-type: disc;
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.faq-list ul {
+
+}
+
+.faq-questions {
+}
+
+/* Ready Section */
+.ready-sign {
+  padding: 100px 0;
+}
+
+.ready-sign .container {
+    padding: 0 100px;
+}
+
+/** Organizer Registration Section **/
+
+.register-for-localhackday .btn-large {
+  width: 100%;
+}
+
+.register-for-localhackday .screen.visible,
+.register-for-localhackday .screen.screen-before {
+  display: block;
+}
+
+.register-for-localhackday .screen.screen-after {
+  display: none;
+}
+
+.register-for-localhackday .row-error {
+  display: none;
+}
+
+.register-for-localhackday .row-error p {
+  color: #DE1414;
+  font-size: 16px;
+}
+
+.register-for-localhackday .row-error p span.error-message {
+  display: inline-block;
+  padding-left: 5px;
+}
+
+/** Hacker Pre-Registration Section **/
+
+.hackathon-city-name {
+  font-size: 13px;
+  display: block;
+}
+
+.hackathon-city-location {
+  font-size: 11px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.register-intent {
+  background: #26A69A;
+  padding: 4px 10px;
+  color: #FFF;
+  border: 0;
+
+  font-size: 14px;
+
+  border-radius: 5px;
+  -o-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+.register-intent:hover {
+  background: green;
+}
+
+.hacker-register-for-localhackday select#event_id {
+  display: block;
+  width: 100%;
+}
+
+.hacker-register-for-localhackday .select2-container {
+  text-align: left;
+}
+
+.select2-container .select2-results__option.select2-results__option--highlighted {
+  background: #26A69A;
+}
+
+.select2-container .select2-results__option span {
+  background: #26A69A;
+}
+
+.hacker-register-for-localhackday .select2-container .select2-selection .select2-selection__arrow {
+    background: #26A69A;
+    width: 40px;
+    font-size: 1.3em;
+    padding: 4px 12px;
+}
+
+.hacker-register-for-localhackday .select2-container .select2-selection .select2-selection__arrow b {
+  border-color: #fff rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) !important;
+}
+
+.hacker-register-for-localhackday .btn-large {
+  width: 100%;
+}
+
+.hacker-register-for-localhackday .screen.visible,
+.hacker-register-for-localhackday .screen.screen-before {
+  display: block;
+}
+
+.hacker-register-for-localhackday .screen.screen-after {
+  display: none;
+}
+
+.hacker-register-for-localhackday .row-error {
+  display: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hacker-register-for-localhackday .row-error p {
+  color: #DE1414;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.hacker-register-for-localhackday .row-error p span.error-message {
+  display: inline-block;
+  padding-left: 5px;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+  .picture-box {
+    width: 100%;
+  }
+
+  .lhd-details-1 {
+    margin-bottom: 20px;
+  }
+
+  .center.lhd-logo {
+    width: 90%;
+    padding-top: 30px;
+  }
+
+  .intro h3, .ts-body .intro h3 {
+    font-size: 30px;
+  } 
+
+  .navi-skrollz {
+    display: none !important;
+  }
+
+  .side-a {
+    border-right: none;
+  }
+
+  .side-b .side-cell {
+    padding-left: 0;
+  }
+
+  .faq-statement h6, .faq-list h6 {
+    line-height: inherit;
+  }
+
+  .ready-sign .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  a#download-button {
+    width: 80%;
+    display: block;
+    margin: auto;
+    margin-bottom: 30px;
+    font-size: 16px;
+  }
+
+  .socmed-bar a {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  section#join .join-btn p a {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .hacker-register-for-localhackday .input-field {
+    display: block !important;
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 992px) {
+  .picture-box {
+    width: 50%;
+  }
+
+  .center.lhd-logo {
+    width: 90%;
+  }
+
+  .navi-skrollz {
+    display: none !important;
+  }
+}
+
+#codeConduct {
+  padding-bottom: 10px;
+}
+
+#mlhHeart {
+  padding-top: 30px;
+}
