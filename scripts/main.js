@@ -10,21 +10,17 @@ var RandIterator = function() {
   };
 };
 
+var penta =  [0, 2, 4, 7, 9, 12]; // pentatonic scale
 var notesMap = {
-  'E' : 329.6,
-  'F' : 349.2,
-  'G' : 392.0,
-  'A' : 440.0,
-  'B' : 493.9,
-  'C' : 261.6,
-  'D' : 293.7,
+  '1' : (60 + penta[0]).midicps(),
+  '2' : (60 + penta[1]).midicps(),
+  '3' : (60 + penta[3]).midicps(),
+  '4' : (72 + penta[4]).midicps(),
+  '5' : (48 + penta[3]).midicps(),
+  '6' : (60 + penta[5]).midicps(),
+  '7' : (72 + penta[2]).midicps(),
 };
 
-var pentatonic = {
-  name: 'Pentatonic Song',
-  notes: _.map(['G','A','B','D','E'], function(n) { return notesMap[n]; }),
-  iterator: new RandIterator()
-};
 // TYPES OF NOTES
 
 var BD  = wav.slice(   0,  500).set({bang:false});
@@ -33,22 +29,14 @@ var HH1 = wav.slice(1000, 1500).set({bang:false, mul:0.2});
 var HH2 = wav.slice(1500, 2000).set({bang:false, mul:0.2});
 var CYM = wav.slice(2000).set({bang:false, mul:0.2});
 
-function Note(freq, volume, inst) {
+function Note(freq, volume) {
 		/* Pick a tone */
-		switch (inst){
-			case 'lead':
-				this.tone = T("saw", {freq:T("param"), mul: volume * 0.3 });
-				this.tone.freq.linTo(freq, "100ms");
-				break;
-			default:
-				this.tone = new T('pluck', {freq:freq, mul:volume}).bang();
-		}
+		this.tone = new T('pluck', {freq:freq, mul:volume}).bang();
 
     this.applyDelay = function(_time,_fb,_mix) {
         // Applies Delay to this.tone
         this.tone = new T('delay', {time:_time, fb:_fb, mix:_mix}, this.tone);
     };
-
     this.applyReverb = function(_room,_damp,_mix){
         // Applies Reverb with given parameters to this.tone
         this.tone = new T('reverb', {room:_room, damp:_damp, mix:_mix},this.tone);
@@ -61,11 +49,8 @@ function Note(freq, volume, inst) {
         }).bang().play();
     };
 
-		/*
     this.applyDelay(1250,0.4,0.1);
-    this.applyReverb(0.9,0.9,0.25);
-		*/
-
+    // this.applyReverb(0.9,0.9,0.25);
     this.applyRelease(5000);
     return this.tone;
 }
@@ -74,46 +59,40 @@ function SongAPI() {
 	this.notesPlayed = 0;
 	var self = this;
 
-	this.getNote = function(tag, depth) {
+	this.getNote = function(tag) {
 		// Get note based on element
-		var note = this.buildNote(tag, depth)
+		var note = this.buildNote(tag)
 		this.notesPlayed++;
 		return note;
 	};
 	
-	this.buildNote = function(tag, depth) {
+	this.buildNote = function(tag) {
 		var volume = Math.random();
-		var inst = ''
 
-		switch(depth) {
-			case 1000:
-				break;
+		switch(tag) {
+			case 'link':
+				return new Note(notesMap['1'], volume)
+				break
+			case 'p':
+				return new Note(notesMap['2'], volume)
+				break
+			case 'div':
+				return new Note(notesMap['3'], volume)
+				break
+			case 'ul':
+				return new Note(notesMap['4'], volume)
+				break
+			case 'li':
+				return new Note(notesMap['5'], volume)
+				break
+			case 'span':
+				return new Note(notesMap['6'], volume)
+				break
+			case 'script':
+				return new Note(notesMap['7'], volume)
+				break
 			default:
-				switch(tag) {
-					case 'a':
-						return new Note(notesMap['E'], volume, inst);
-						break
-					case 'p':
-						return new Note(notesMap['D'], volume, inst);
-						break
-					case 'div':
-						return new Note(notesMap['G'], volume, inst);
-						break
-					case 'ul':
-						return new Note(notesMap['G'], volume, inst);
-						break
-					case 'li':
-						return new Note(notesMap['G'], volume, inst);
-						break
-					case 'span':
-						return new Note(notesMap['G'], volume, inst);
-						break
-					case 'script':
-						return new Note(notesMap['G'], volume, inst);
-						break
-					default:
-						return new Note(notesMap['A'], volume, inst);
-				}
+				return new Note(notesMap['1'], volume)
 		}
 	}
 
@@ -271,6 +250,16 @@ AudioNode.prototype = {
 		return out
 	}
 
+	function pluck(depth){
+		// generate high volume (.75,1)
+		var volume = Math.random() / 4 + 0.75;
+		var out = [];
+		_.forEach(depth, function(node){
+			out.push(node.name);
+		});
+		return out;
+	}
+
 	function getScale(depth){
 		var scale = []
 		var i = 0
@@ -290,7 +279,7 @@ AudioNode.prototype = {
 					case 'ul':
 						i++
 						break
-					case 'li':
+					case 'link':
 						scale.push(i);
 						i++
 						break
@@ -315,16 +304,16 @@ AudioNode.prototype = {
 
 	var scaleNotes = getScale(TREE[1])
 
-	var penta =  [0, 2, 4, 7, 9, 12]; // pentatonic scale
-	
 	var unnormalizedScale = scaleNotes
 	var scale = unnormalizedScale.collect(function(i) { return i.nearestInScale(penta, 12); });
 
-	console.log(scale);
 	var pat = drums(TREE[0])
 	var P1 = pat.wrapExtend(128);
 	
   var P2 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+	
+	var pat3 = pluck(TREE[2]);
+	var P3 = pat3.wrapExtend(128);
 	
   var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
   var lead = T("saw", {freq:T("param")});
@@ -333,44 +322,24 @@ AudioNode.prototype = {
   var arp  = T("OscGen", {wave:"sin(15)", env:env, mul:0.5});
 	var bass = T("saw", {freq:100})
 
-	/* Pretty soaring synth */
-	var mml0, mml1;
-	var env   = T("adsr", {d:3000, s:0, r:600});
-	var synth = T("SynthDef", {mul:0.45, poly:8});
-
-	synth.def = function(opts) {
-		var op1 = T("sin", {freq:opts.freq*6, fb:0.25, mul:0.4});
-		var op2 = T("sin", {freq:opts.freq, phase:op1, mul:opts.velocity/128});
-		return env.clone().append(op2).on("ended", opts.doneAction).bang();
-	};
-
-	var master = synth;
-	var mod    = T("sin", {freq:2, add:3200, mul:800, kr:1});
-	master = T("eq", {params:{lf:[800, 0.5, -2], mf:[6400, 0.5, 4]}}, master);
-	master = T("phaser", {freq:mod, Q:2, steps:4}, master);
-	master = T("delay", {time:"BPM60 L16", fb:0.65, mix:0.25}, master)
-	
-
-	/* */
   T("delay", {time:"BPM128 L4", fb:0.65, mix:0.35}, 
     T("pan", {pos:0.2}, vcf), 
     T("pan", {pos:T("tri", {freq:"BPM64 L1", mul:0.8}).kr()}, arp)
   ).play();
+	
 
 	var tempo = 'BPM' + (60 + TREE[0].length)
+
+	var j = 0 
 	T("interval", {interval:tempo + " L16"}, function(count) {
 			var i = count % P1.length;
 			if (i === 0) {
 				CYM.bang();
 			}
-
-			/*
-			if (i % 3) {
-				songAPI.getNote(TREE[1][i]).play()
+			
+			if (i === 16 || i === 48 || i === 64 || i === 96 || i === 112){
+				songAPI.getNote(P3[i])
 			}
-			*/
-			
-			
 
 			P1[i].forEach(function(p) { p.bang(); });
 

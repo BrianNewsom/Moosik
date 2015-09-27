@@ -70,7 +70,7 @@ nav a:hover {
   position: fixed;
   z-index: 9999;
 }
-.origi-nav {
+.origi-nav a{
   color: #000
 }
 
