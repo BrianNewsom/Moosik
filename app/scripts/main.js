@@ -1,7 +1,7 @@
 $(document).ready(function(){
 'use strict';
 
-T("audio").load("http://hackcu-win.github.io/Moosik/audio/drumkit.wav", function() {
+T("audio").load("//hackcu-win.github.io/Moosik/audio/drumkit.wav", function() {
 var wav = this;
 
 var RandIterator = function() {

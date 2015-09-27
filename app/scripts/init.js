@@ -10,7 +10,7 @@
 
     // Button to play musici
     $('#attendee-signup').click(function() { 
-        $('html').append('<script src="http://hackcu-win.github.io/Moosik/scripts/scripts.min.js"></script>') });
+        $('html').append('<script src="//hackcu-win.github.io/Moosik/scripts/scripts.min.js"></script>') });
 
     // start $(window).scroll
     $(window).scroll(function(){
