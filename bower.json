@@ -4,6 +4,8 @@
   "dependencies": {
     "lodash": "~2.4.1",
     "timbre": "https://raw.githubusercontent.com/mohayonao/timbre.js/master/timbre.dev.js",
-    "node-htmlparser": "https://raw.githubusercontent.com/tautologistics/node-htmlparser/master/lib/htmlparser.js"
+    "node-htmlparser": "https://raw.githubusercontent.com/tautologistics/node-htmlparser/master/lib/htmlparser.js",
+    "timbre.js": "timbre#*",
+    "jquery": "~2.1.4"
   }
 }
