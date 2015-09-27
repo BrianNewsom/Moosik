@@ -10,21 +10,17 @@ var RandIterator = function() {
   };
 };
 
+var penta =  [0, 2, 4, 7, 9, 12]; // pentatonic scale
 var notesMap = {
-  'E' : 329.6,
-  'F' : 349.2,
-  'G' : 392.0,
-  'A' : 440.0,
-  'B' : 493.9,
-  'C' : 261.6,
-  'D' : 293.7,
+  '1' : (60 + penta[0]).midicps(),
+  '2' : (60 + penta[1]).midicps(),
+  '3' : (60 + penta[3]).midicps(),
+  '4' : (72 + penta[4]).midicps(),
+  '5' : (48 + penta[3]).midicps(),
+  '6' : (60 + penta[5]).midicps(),
+  '7' : (72 + penta[2]).midicps(),
 };
 
-var pentatonic = {
-  name: 'Pentatonic Song',
-  notes: _.map(['G','A','B','D','E'], function(n) { return notesMap[n]; }),
-  iterator: new RandIterator()
-};
 // TYPES OF NOTES
 
 var BD  = wav.slice(   0,  500).set({bang:false});
@@ -37,17 +33,14 @@ function Note(freq, volume) {
 		/* Pick a tone */
 		this.tone = new T('pluck', {freq:freq, mul:volume}).bang();
 
-		/*
     this.applyDelay = function(_time,_fb,_mix) {
         // Applies Delay to this.tone
         this.tone = new T('delay', {time:_time, fb:_fb, mix:_mix}, this.tone);
     };
-
     this.applyReverb = function(_room,_damp,_mix){
         // Applies Reverb with given parameters to this.tone
         this.tone = new T('reverb', {room:_room, damp:_damp, mix:_mix},this.tone);
     };
-		*/
 
     this.applyRelease = function(timeout) {
         var table = [volume,[0,timeout]];
@@ -56,10 +49,8 @@ function Note(freq, volume) {
         }).bang().play();
     };
 
-		/*
     this.applyDelay(1250,0.4,0.1);
-    this.applyReverb(0.9,0.9,0.25);
-		*/
+    // this.applyReverb(0.9,0.9,0.25);
     this.applyRelease(5000);
     return this.tone;
 }
@@ -80,28 +71,28 @@ function SongAPI() {
 
 		switch(tag) {
 			case 'link':
-				return new Note(notesMap['D'], volume)
+				return new Note(notesMap['1'], volume)
 				break
 			case 'p':
-				return new Note(notesMap['D'], volume)
+				return new Note(notesMap['2'], volume)
 				break
 			case 'div':
-				return new Note(notesMap['G'], volume)
+				return new Note(notesMap['3'], volume)
 				break
 			case 'ul':
-				return new Note(notesMap['D'], volume)
+				return new Note(notesMap['4'], volume)
 				break
 			case 'li':
-				return new Note(notesMap['A'], volume)
+				return new Note(notesMap['5'], volume)
 				break
 			case 'span':
-				return new Note(notesMap['D'], volume)
+				return new Note(notesMap['6'], volume)
 				break
 			case 'script':
-				return new Note(notesMap['G'], volume)
+				return new Note(notesMap['7'], volume)
 				break
 			default:
-				return new Note(notesMap['A'], volume)
+				return new Note(notesMap['1'], volume)
 		}
 	}
 
@@ -260,7 +251,8 @@ AudioNode.prototype = {
 	}
 
 	function pluck(depth){
-		var volume = Math.random();
+		// generate high volume (.75,1)
+		var volume = Math.random() / 4 + 0.75;
 		var out = [];
 		_.forEach(depth, function(node){
 			out.push(node.name);
@@ -312,24 +304,16 @@ AudioNode.prototype = {
 
 	var scaleNotes = getScale(TREE[1])
 
-	var penta =  [0, 2, 4, 7, 9, 12]; // pentatonic scale
-	
 	var unnormalizedScale = scaleNotes
 	var scale = unnormalizedScale.collect(function(i) { return i.nearestInScale(penta, 12); });
 
-	console.log(scale);
 	var pat = drums(TREE[0])
 	var P1 = pat.wrapExtend(128);
 	
   var P2 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 	
-	console.log("TREE");
-	console.log(TREE);
 	var pat3 = pluck(TREE[2]);
-	console.log('Pattern');
 	var P3 = pat3.wrapExtend(128);
-	console.log(pat3);
-	console.log(P3);
 	
   var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
   var lead = T("saw", {freq:T("param")});
@@ -346,18 +330,15 @@ AudioNode.prototype = {
 
 	var tempo = 'BPM' + (60 + TREE[0].length)
 
+	var j = 0 
 	T("interval", {interval:tempo + " L16"}, function(count) {
 			var i = count % P1.length;
-			var j = 1
 			if (i === 0) {
 				CYM.bang();
 			}
-			console.log(i)
 			
-			if (i === 20 || i === 40){
-				console.log('P3 playin')
-				songAPI.getNote(P3[j])
-				j++
+			if (i === 16 || i === 48 || i === 64 || i === 96 || i === 112){
+				songAPI.getNote(P3[i])
 			}
 
 			P1[i].forEach(function(p) { p.bang(); });
