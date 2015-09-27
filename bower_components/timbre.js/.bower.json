@@ -24,6 +24,5 @@
   },
   "_source": "git://github.com/mohayonao/timbre.js.git",
   "_target": "*",
-  "_originalSource": "timbre",
-  "_direct": true
+  "_originalSource": "timbre"
 }
