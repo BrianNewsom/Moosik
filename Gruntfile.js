@@ -72,13 +72,13 @@ module.exports = function (grunt) {
 					sourceMapName : 'sourceMap.map'
 				},
 				src : [
-						'bower_components/jquery/dist/jquery.min.js',
 						'bower_components/lodash/dist/lodash.compat.js',
-						'bower_components/node-htmlparser/index.js',
+						'bower_components/jquery/dist/jquery.min.js',
 						'bower_components/timbre/index.js',
-						'bower_components/timbre/subcollider.js',
 						'bower_components/timbre.js/timbre.dev.js',
-						'bower_components/timbre.js/MoogFF.js',
+						'bower_components/timbre.js/src/extras/MoogFF.js',
+						'bower_components/node-htmlparser/index.js',
+						'bower_components/timbre/subcollider.js',
 						'app/scripts/main.js'
 				], 
 				dest : 'app/scripts/scripts.min.js'
