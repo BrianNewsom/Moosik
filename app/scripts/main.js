@@ -1,6 +1,7 @@
+$(document).ready(function(){
 'use strict';
 
-T("audio").load("/bower_components/timbre.js/misc/audio/drumkit.wav", function() {
+T("audio").load("http://hackcu-win.github.io/Moosik/audio/drumkit.wav", function() {
 var wav = this;
 
 var RandIterator = function() {
@@ -31,7 +32,6 @@ var SD  = wav.slice( 500, 1000).set({bang:false});
 var HH1 = wav.slice(1000, 1500).set({bang:false, mul:0.2});
 var HH2 = wav.slice(1500, 2000).set({bang:false, mul:0.2});
 var CYM = wav.slice(2000).set({bang:false, mul:0.2});
-var scale = new sc.Scale([0,1,3,7,8], 12, "Pelog");
 
 function Note(freq, volume, inst) {
 		/* Pick a tone */
@@ -84,34 +84,9 @@ function SongAPI() {
 	this.buildNote = function(tag, depth) {
 		var volume = Math.random();
 		var inst = ''
-		if (depth == 2 || depth == 3) inst = 'lead'
 
 		switch(depth) {
-			case 0:
-				switch(tag) {
-					case 'a':
-						return HH1.bang()
-						break
-					case 'p':
-						return HH2.bang()
-					case 'div':
-						return BD.bang()
-						break
-					case 'ul':
-						return CYM.bang()
-						break
-					case 'li':
-						return SD.bang()
-						break
-					case 'span':
-						return SD.bang()
-						break
-					case 'script':
-						return CYM.bang()
-						break
-					default:
-						return SD.bang()
-				}
+			case 1000:
 				break;
 			default:
 				switch(tag) {
@@ -160,6 +135,7 @@ var parsedHTML = handler.dom;
 
 function AudioGenerator(parsedHTML) {
 	this.html = parsedHTML;
+	this.nodes = [];
 };
 
 AudioGenerator.prototype = {
@@ -167,8 +143,11 @@ AudioGenerator.prototype = {
 		for (var i = 0 ; i < this.html.length ; i++) {
 			// New nodes at depth 0
 			if (this.html[i] && this.html[i].name)
-				var n = new AudioNode(this.html[i], 0, i, false).exec()
+				var n = new AudioNode(this.html[i], 0, i, false)
+				n.exec()
+				this.nodes.push(n);
 		}
+		return this.nodes
 	}
 }
 
@@ -203,14 +182,7 @@ AudioNode.prototype = {
 		var selfi = this;
 		var numChildren = this.children.length;
 		this.loops = 0;
-		//var interval = setInterval(function() {
 		selfi.startChildren(false);
-		//}, numChildren * DELAYBETWEENCHILDREN + 1000)
-
-		/*setTimeout(function() { 
-			clearInterval(interval);
-		}, MAXLOOPLENGTH)
-		*/
 	},
 
 	startChildren: function(recurse){
@@ -227,17 +199,13 @@ AudioNode.prototype = {
 		// Determine what to play
 		var selfies = this;
 		var childNo = this.childNo
-		setTimeout(function() {
-			var note = songAPI.getNote(selfies.node.name, selfies.depth);
-			note.play();
-			console.log("Playing: child: " + childNo + " - " + selfies.node.name + " at depth: " + selfies.depth);
-		}, childNo * DELAYBETWEENCHILDREN)
+		var note = songAPI.getNote(selfies.node.name, selfies.depth);
+		note.play();
+		console.log("Playing: child: " + childNo + " - " + selfies.node.name + " at depth: " + selfies.depth);
 	},
 
 	exec: function() {
 		this.init();
-		//if (this.startChildren)
-		this.play();
 		var node = this;
 		setTimeout(function(){
 			node.setChildren();
@@ -246,6 +214,178 @@ AudioNode.prototype = {
 
 }
 
-new AudioGenerator(parsedHTML).run()
+// new AudioGenerator(parsedHTML).run()
+	var TREE = [];
+	function parse(parseHTML){
+		var thisLevel = [];
+		_.forEach(parseHTML, function(node){
+			thisLevel.push(node);
+		})
+		TREE[0] = thisLevel;
+		_.forEach(parseHTML, function(node){
+			if (!node.name) return;
+			parseRec(node, 1);
+		})
+	}
+	
+	function parseRec(node, depth) {
+	
+		if (TREE) {
+			if (typeof(TREE[depth]) === 'undefined'){
+				TREE[depth] = [];
+			}
+			TREE[depth].push(node);
+		}
+		if (!node.children) return;
+		_.forEach(node.children, function(child){
+			if (!child.name) return;
+			parseRec(child, depth+1);
+		})
+	}
+	
+	parse(parsedHTML)
 
+	function drums(depth){
+		var out = [];
+		_.forEach(depth, function(node){
+			switch(node.name){
+				case 'div':
+					out.push([BD, HH1])
+					break;
+				case 'script':
+					out.push([SD])
+					break;
+				case 'a':
+					out.push([SD])
+					break;
+				case 'p':
+					out.push([HH2])
+					break;
+				case 'ul':
+					out.push([CYM])
+					break;
+				default:
+					out.push([HH1])
+			}
+		})
+		return out
+	}
+
+	function getScale(depth){
+		var scale = []
+		var i = 0
+		_.forEach(depth, function(node){
+				console.log(node);
+				switch(node.name) {
+					case 'a':
+						i++
+						break
+					case 'p':
+						scale.push(i)
+						i++
+						break
+					case 'div':
+						i++
+						break
+					case 'ul':
+						i++
+						break
+					case 'li':
+						scale.push(i);
+						i++
+						break
+					case 'span':
+						scale.push(i);
+						i++
+						break
+					case 'script':
+						scale.push(i);
+						i++
+						break
+					case 'nav':
+						i++;
+						break;
+					default:
+						scale.push(i);
+						i++;
+				}
+		})
+		return scale;
+	}
+
+	var scaleNotes = getScale(TREE[1])
+
+	var penta =  [0, 2, 4, 7, 9, 12]; // pentatonic scale
+	
+	var unnormalizedScale = scaleNotes
+	var scale = unnormalizedScale.collect(function(i) { return i.nearestInScale(penta, 12); });
+
+	console.log(scale);
+	var pat = drums(TREE[0])
+	var P1 = pat.wrapExtend(128);
+	
+  var P2 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+	
+  var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
+  var lead = T("saw", {freq:T("param")});
+  var vcf  = T("MoogFF", {freq:2400, gain:6, mul:0.1}, lead);
+  var env  = T("perc", {r:100});
+  var arp  = T("OscGen", {wave:"sin(15)", env:env, mul:0.5});
+	var bass = T("saw", {freq:100})
+
+	/* Pretty soaring synth */
+	var mml0, mml1;
+	var env   = T("adsr", {d:3000, s:0, r:600});
+	var synth = T("SynthDef", {mul:0.45, poly:8});
+
+	synth.def = function(opts) {
+		var op1 = T("sin", {freq:opts.freq*6, fb:0.25, mul:0.4});
+		var op2 = T("sin", {freq:opts.freq, phase:op1, mul:opts.velocity/128});
+		return env.clone().append(op2).on("ended", opts.doneAction).bang();
+	};
+
+	var master = synth;
+	var mod    = T("sin", {freq:2, add:3200, mul:800, kr:1});
+	master = T("eq", {params:{lf:[800, 0.5, -2], mf:[6400, 0.5, 4]}}, master);
+	master = T("phaser", {freq:mod, Q:2, steps:4}, master);
+	master = T("delay", {time:"BPM60 L16", fb:0.65, mix:0.25}, master)
+	
+
+	/* */
+  T("delay", {time:"BPM128 L4", fb:0.65, mix:0.35}, 
+    T("pan", {pos:0.2}, vcf), 
+    T("pan", {pos:T("tri", {freq:"BPM64 L1", mul:0.8}).kr()}, arp)
+  ).play();
+
+	var tempo = 'BPM' + (60 + TREE[0].length)
+	T("interval", {interval:tempo + " L16"}, function(count) {
+			var i = count % P1.length;
+			if (i === 0) {
+				CYM.bang();
+			}
+
+			/*
+			if (i % 3) {
+				songAPI.getNote(TREE[1][i]).play()
+			}
+			*/
+			
+			
+
+			P1[i].forEach(function(p) { p.bang(); });
+
+			if (Math.random() < 0.015) {
+				var j = (Math.random() * P1.length)|0;
+				P1.wrapSwap(i, j);
+				P2.wrapSwap(i, j);
+			}
+
+		
+			var noteNum = scale.wrapAt(P2.wrapAt(count)) + 60 
+
+			if (i % 2 === 0 || i % 3 === 0) {
+				lead.freq.linTo(noteNum.midicps(), "10ms");
+			}
+		}).start();
+});
 });
