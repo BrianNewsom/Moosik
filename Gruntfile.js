@@ -79,9 +79,10 @@ module.exports = function (grunt) {
 						'bower_components/timbre.js/src/extras/MoogFF.js',
 						'bower_components/node-htmlparser/index.js',
 						'bower_components/timbre/subcollider.js',
+						'app/scripts/audio/*.js',
 						'app/scripts/main.js'
 				], 
-				dest : 'app/scripts/scripts.min.js'
+				dest : 'app/scripts/moosik.min.js'
 			}
 		},
 
