@@ -56,6 +56,7 @@ function SongAPI() {
 			var HH1 = this.slice(1000, 1500).set({bang:false, mul:0.2});
 			var HH2 = this.slice(1500, 2000).set({bang:false, mul:0.2});
 			var CYM = this.slice(2000).set({bang:false, mul:0.2});
+			var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
 			var pattern = [];
 			_.forEach(depth, function(node){
 				switch(node.name){

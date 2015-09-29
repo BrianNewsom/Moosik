@@ -1,4 +1,3 @@
-// var drum = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
 var lead = T("saw", {freq:T("param")});
 var vcf  = T("MoogFF", {freq:2400, gain:6, mul:0.1}, lead);
 var env  = T("perc", {r:100});
