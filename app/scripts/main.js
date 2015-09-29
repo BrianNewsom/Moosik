@@ -1,5 +1,7 @@
-$(document).ready(function(){
+function MoosikMain() {
 	'use strict';
+
+	var main = this;
 
 	var songAPI = new SongAPI();
 
@@ -39,10 +41,24 @@ $(document).ready(function(){
 		var loop = new MainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq);
 
 		var control = new Control(loop);
-
+		
+		// Start loop initially
 		control.start();
-		setTimeout(function() {
+
+		main.start = function() {
+			// Global start & (accesses control)
+			if (!control){
+				var control = new Control(loop);	
+			}
+			control.start();
+		}
+		
+		main.stop = function() {
+			// Global stop (accesses control)
 			control.stop();
-		}, 3000);
+		}
 	});
-});
+}
+
+// We need an object to start and stop from the chrome extension
+var moosikMain = new MoosikMain();
