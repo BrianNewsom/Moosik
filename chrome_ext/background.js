@@ -5,11 +5,10 @@
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function(tab) {
   // No tabs or host permissions needed!
-	console.log('Making magic music happen!');
+	console.log('Making music happen!');
 
-	/*
-  chrome.tabs.executeScript({
-    code: '$(\'html\').append(\'<script src="//hackcu-win.github.io/Moosik/scripts/scripts.min.js"></script>\')'
+  chrome.tabs.sendMessage(tab.id, {data: "toggle"}, function(response) {
+		console.log('sent toggle');
+		console.log(response.data);
   });
-	*/
 });

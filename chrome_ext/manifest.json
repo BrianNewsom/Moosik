@@ -1,7 +1,7 @@
 {
   "name": "Moosik",
   "description": "Add a soundtrack to the page you're on",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "permissions": [
     "activeTab", "https://*.com/*", "http://*.com/*"
   ],
@@ -16,11 +16,11 @@
 		}
 	],
 	"web_accessible_resources": [
-		"scripts.min.js"
+		"moosik.min.js", "toggle.js"
 	],
 		
   "browser_action": {
     "default_title": "Listen to this site"
   },
-  "manifest_version": 3
+  "manifest_version": 4
 }
