@@ -36,6 +36,13 @@ $(document).ready(function(){
 
 		var j = 0 
 
-		mainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq)
+		var loop = new MainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq);
+
+		var control = new Control(loop);
+
+		control.start();
+		setTimeout(function() {
+			control.stop();
+		}, 3000);
 	});
 });
