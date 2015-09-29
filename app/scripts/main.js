@@ -22,10 +22,7 @@ $(document).ready(function(){
 	var scale= songAPI.buildScale(TREE[1])
 
 	songAPI.buildDrums(TREE[0], function(drumSeqShort) {
-		console.log('using pattern')
-		console.log(drumSeqShort);
 		var drumSeq = drumSeqShort.wrapExtend(128);
-		console.log(drumSeq);
 
 		var seqArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
