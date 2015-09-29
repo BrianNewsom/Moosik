@@ -25,11 +25,14 @@ other than providing tunes for all of your viewers!
 #### Chrome Extension!
 We've bundled Moosik as a chrome extension so you can experience it's joys on every website.
 
-Download Moosik.crx from the home directory of this repository, and drag it into your window on 
+Download Moosik.crx from the home directory of this repository, and drag it into your window on
 ```
 chrome://extensions
 ```
 Our JS will now be appended to every site, playing a new piece for each page you visit.
+
+A published chrome extension is coming VERY soon! We recommend you wait until we publish it on the chrome store so we can 
+optimize it a bit.
 
 #### I'm a Hacker
 Run the following JS in the developers console, and you can include our script on any site with jquery.

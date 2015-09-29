@@ -79,8 +79,6 @@ function SongAPI() {
 						pattern.push([HH1])
 				}
 			})
-			console.log('returning pattern')
-			console.log(pattern);
 			callback(pattern)
 		})
 	}
@@ -89,7 +87,6 @@ function SongAPI() {
 		var scale = []
 		var i = 0
 		_.forEach(depth, function(node){
-				console.log(node);
 				switch(node.name) {
 					case 'a':
 						i++

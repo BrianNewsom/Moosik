@@ -1,7 +1,7 @@
 {
   "name": "Moosik",
   "description": "Add a soundtrack to the page you're on",
-  "version": "2.0",
+  "version": "0.0.1",
   "permissions": [
     "activeTab", "https://*.com/*", "http://*.com/*"
   ],
@@ -22,5 +22,5 @@
   "browser_action": {
     "default_title": "Listen to this site"
   },
-  "manifest_version": 2
+  "manifest_version": 3
 }

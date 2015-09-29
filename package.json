@@ -34,12 +34,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/HackCU-Win/Moosik.git"
+    "url": "https://github.com/BrianNewsom/Moosik.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HackCU-Win/Moosik/issues"
+    "url": "https://github.com/BrianNewsom/Moosik/issues"
   },
-  "homepage": "https://github.com/HackCU-Win/Moosik"
+  "homepage": "https://github.com/BrianNewsom/Moosik"
 }

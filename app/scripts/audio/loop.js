@@ -1,5 +1,5 @@
-function mainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq) {
-	T("interval", {interval: interval}, function(count) {
+function MainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq) {
+	return T("interval", {interval: interval}, function(count) {
 		var i = count % drumSeq.length;
 		/*
 		if (i === 0) {
@@ -25,5 +25,5 @@ function mainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq) {
 		if (i % 2 === 0 || i % 3 === 0) {
 			lead.freq.linTo(noteNum.midicps(), "10ms");
 		}
-	}).start();
+	});
 }
