@@ -16,24 +16,28 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.data == "toggle"){
 			if (request.playing){
-				console.log(request);
 				// Currently playing, ensure it is disabled
 				toggle();
 				sendResponse({toggled: true});
 			} else if (!request.playing){
 				// Not playing, toggle if it is not a tab change
-				console.log(request);
-				if (moosikIsInjected) toggle();
-				else injectMoosik();
+				toggleOrInject();
 				sendResponse({toggled: true});
 			}
 		} else if (request.data == "tabChange"){
 			// We should only be here if music was playing, so we want to disable it.
-			console.log(request);
-			toggle();
+			toggleOrInject();
+			sendResponse({toggled: false});
 		}
   }
 );
+
+function toggleOrInject(){
+	// If moosik is not injected on this tab, we need to inect it.  If not, just toggle
+	if (moosikIsInjected) toggle();
+	else injectMoosik();
+}
+
 
 function injectMoosik() {
 	var s = document.createElement('script');

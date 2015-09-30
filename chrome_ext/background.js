@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-var isPlayingGlobally = true;
+var isPlayingGlobally = false;
 var currentTabId = 0;
 
 // Called when the user clicks on the browser action.
@@ -31,14 +31,12 @@ chrome.tabs.onActivated.addListener(function(activeInfo){
 	// Stop music in tab we just changed from
 	if (isPlayingGlobally && currentTabId != activeInfo.tabId){
 		chrome.tabs.sendMessage(currentTabId, {data: "tabChange"})
-		console.log('sent tab change to ' + currentTabId);
 	}
 	// Set new current tab
-	console.log('updating current tab from ' + currentTabId + ' to ' + activeInfo.tabId);
 	currentTabId = activeInfo.tabId
 
 	// Now start playing on the new tab if it already existed
 	if (isPlayingGlobally){
-		chrome.tabs.sendMessage(activeInfo.tabId, {data: "toggle", playing: true, tabChage: true});
+		chrome.tabs.sendMessage(activeInfo.tabId, {data: "tabChange"});
 	}
 })
