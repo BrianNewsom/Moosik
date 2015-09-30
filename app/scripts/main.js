@@ -2,6 +2,7 @@ function MoosikMain() {
 	'use strict';
 
 	var main = this;
+	this.playing = false;
 
 	var songAPI = new SongAPI();
 
@@ -44,6 +45,7 @@ function MoosikMain() {
 		
 		// Start loop initially
 		control.start();
+		main.playing = true;
 
 		main.start = function() {
 			// Global start & (accesses control)
@@ -51,11 +53,21 @@ function MoosikMain() {
 				var control = new Control(loop);	
 			}
 			control.start();
+			main.playing = true;
 		}
 		
 		main.stop = function() {
 			// Global stop (accesses control)
 			control.stop();
+			main.playing = false;
+		}
+		
+		main.toggle = function() {
+			if (main.playing) {
+				main.stop();
+			} else {
+				main.start();
+			}
 		}
 	});
 }

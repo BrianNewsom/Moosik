@@ -15,7 +15,7 @@ a unique but deterministic, consistent composition for each website it parses.
 ### I have a website
 To include Moosik in *your* website, all you need to do is add the line to the end of your index.html file:
 ```
-<script src="//hackcu-win.github.io/Moosik/scripts/scripts.min.js"></script>
+<script src="//BrianNewsom.github.io/Moosik/scripts/moosik.min.js"></script>
 ```
 This will include JQuery and a few audio libraries on your website, but will not mess with anything else on your site,
 other than providing tunes for all of your viewers!
@@ -37,7 +37,7 @@ optimize it a bit.
 #### I'm a Hacker
 Run the following JS in the developers console, and you can include our script on any site with jquery.
 ```
-$('html').append('<script src="//hackcu-win.github.io/Moosik/scripts/scripts.min.js"></script>')
+$('html').append('<script src="//BrianNewsom.github.io/Moosik/scripts/moosik.min.js"></script>')
 ```
 you can include our script on **almost anyone's** site.  This will let you hear different variations and all sorts
 of beautiful Moosikal creations without having to download anything.

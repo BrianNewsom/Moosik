@@ -1,7 +1,7 @@
 {
   "name": "Moosik",
   "description": "Add a soundtrack to the page you're on",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "permissions": [
     "activeTab", "https://*.com/*", "http://*.com/*"
   ],
@@ -16,11 +16,15 @@
 		}
 	],
 	"web_accessible_resources": [
-		"scripts.min.js"
+		"moosik.min.js", "toggle.js"
 	],
+	
+	"icons": { "16": "img/mooselogo16.png",
+           "48": "img/mooselogo48.png",
+          "128": "img/mooselogo128.png" },
 		
   "browser_action": {
     "default_title": "Listen to this site"
   },
-  "manifest_version": 3
+  "manifest_version": 4
 }
