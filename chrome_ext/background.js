@@ -2,23 +2,20 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-var PLAYING = true;
+var isPlayingGlobally = true;
+var currentTabId = 0;
+
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function(tab) {
   // No tabs or host permissions needed!
-	console.log('Making music happen!');
-	PLAYING = !PLAYING;
 
-	var message = {data: "toggle", playing: PLAYING};
-	chrome.tabs.sendMessage(tab.id, message);
-	/*
-	chrome.tabs.query({}, function(tabs) {
-			var message = {data: "toggle", playing: PLAYING};
-			for (var i=0; i < tabs.length; ++i) {
-					chrome.tabs.sendMessage(tabs[i].id, message);
-			}
+	var message = {data: "toggle", playing: isPlayingGlobally, tabChange: false};
+	chrome.tabs.sendMessage(tab.id, message, function(response){
+		// Now wait to see if it was toggled
+		if (response.toggled) {
+			isPlayingGlobally = !isPlayingGlobally;
+		}
 	});
-	*/
 
 });
 
@@ -26,5 +23,15 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.playing == "query")
-      sendResponse({playing: PLAYING});
+      sendResponse({playing: isPlayingGlobally});
   });
+
+// When we change tabs, stop currently playing music
+chrome.tabs.onActivated.addListener(function(activeInfo){
+	// Stop music in tab we just changed from
+	if (isPlayingGlobally && currentTabId != activeInfo.tabId){
+		chrome.tabs.sendMessage(currentTabId, {data: "tabChange"})
+	}
+	// Set new current tab
+	currentTabId = activeInfo.tabId
+})
