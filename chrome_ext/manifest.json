@@ -18,6 +18,10 @@
 	"web_accessible_resources": [
 		"moosik.min.js", "toggle.js"
 	],
+	
+	"icons": { "16": "img/mooselogo16.png",
+           "48": "img/mooselogo48.png",
+          "128": "img/mooselogo128.png" },
 		
   "browser_action": {
     "default_title": "Listen to this site"
