@@ -1,1 +1,1 @@
-moosikMain.toggle();
+moosik.moosikMain.toggle();

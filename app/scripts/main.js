@@ -54,7 +54,7 @@ function MoosikMain() {
 		main.start = function() {
 			// Global start & (accesses control)
 			if (!control){
-				var control = new Control(loop);	
+				var control = new Control(loop, synth);	
 			}
 			control.start();
 			main.playing = true;
