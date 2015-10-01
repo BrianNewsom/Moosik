@@ -1,4 +1,4 @@
-function MainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq) {
+function MainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq, lead) {
 	return T("interval", {interval: interval}, function(count) {
 		var i = count % drumSeq.length;
 		/*
