@@ -1,4 +1,4 @@
-function Control(loop){
+function Control(loop, synth){
 	this.loop = loop;
 	this.synth = synth;
 

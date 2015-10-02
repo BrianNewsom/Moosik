@@ -69,7 +69,9 @@ module.exports = function (grunt) {
 			all_src : {
 				options : {
 					sourceMap : true,
-					sourceMapName : 'sourceMap.map'
+					sourceMapName : 'sourceMap.map',
+					wrap: "moosik",
+					exportAll: true
 				},
 				src : [
 						'bower_components/lodash/dist/lodash.compat.js',

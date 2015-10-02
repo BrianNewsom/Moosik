@@ -4,7 +4,8 @@ function MoosikMain() {
 	var main = this;
 	this.playing = false;
 
-	var songAPI = new SongAPI();
+	var constants = new Constants();
+	var songAPI = new SongAPI(constants);
 
 	var handler = new Tautologistics.NodeHtmlParser.HtmlBuilder(function (error, dom) {
 		if (error)
@@ -39,9 +40,12 @@ function MoosikMain() {
 
 		var j = 0 
 
-		var loop = new MainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq);
+		var instruments = new Instruments();
+		var synth = instruments.synth;
+		var lead = instruments.lead;
+		var loop = new MainLoop(interval, songAPI, scale, drumSeq, seqArray, pluckSeq, lead);
 
-		var control = new Control(loop);
+		var control = new Control(loop, synth);
 		
 		// Start loop initially
 		control.start();
@@ -50,7 +54,7 @@ function MoosikMain() {
 		main.start = function() {
 			// Global start & (accesses control)
 			if (!control){
-				var control = new Control(loop);	
+				var control = new Control(loop, synth);	
 			}
 			control.start();
 			main.playing = true;
