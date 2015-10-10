@@ -15,11 +15,11 @@ chrome.runtime.sendMessage({playing: "query"}, function(response) {
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.data == "toggle"){
-			if (request.playing){
+			if (request.isPlayingGlobally && tabIsPlaying){
 				// Currently playing, ensure it is disabled
 				toggle();
 				sendResponse({toggled: true});
-			} else if (!request.playing){
+			} else if (!request.isPlayingGlobally && !tabIsPlaying){
 				// Not playing, toggle if it is not a tab change
 				toggleOrInject();
 				sendResponse({toggled: true});

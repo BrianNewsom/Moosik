@@ -9,7 +9,7 @@ var currentTabId = 0;
 chrome.browserAction.onClicked.addListener(function(tab) {
   // No tabs or host permissions needed!
 
-	var message = {data: "toggle", playing: isPlayingGlobally, tabChange: false};
+	var message = {data: "toggle", isPlayingGlobally: isPlayingGlobally, tabChange: false};
 	chrome.tabs.sendMessage(tab.id, message, function(response){
 		// Now wait to see if it was toggled
 		if (response.toggled) {
