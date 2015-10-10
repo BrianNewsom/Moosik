@@ -39,7 +39,6 @@ function MoosikMain() {
 			
 
 			
-			console.log(TREE[0].length);
 			var tempo = Math.min(140, 60 + TREE[0].length);
 			var tempoText = 'BPM' + tempo ;
 			var countsPerMeasure = 16;
