@@ -1,4 +1,4 @@
-function SongAPI() {
+function SongAPI(constants) {
 	this.notesPlayed = 0;
 	var self = this;
 
@@ -14,28 +14,28 @@ function SongAPI() {
 
 		switch(tag) {
 			case 'link':
-				return new Note(notesMap['1'], volume)
+				return new Note(constants.notesMap['1'], volume)
 				break
 			case 'p':
-				return new Note(notesMap['2'], volume)
+				return new Note(constants.notesMap['2'], volume)
 				break
 			case 'div':
-				return new Note(notesMap['3'], volume)
+				return new Note(constants.notesMap['3'], volume)
 				break
 			case 'ul':
-				return new Note(notesMap['4'], volume)
+				return new Note(constants.notesMap['4'], volume)
 				break
 			case 'li':
-				return new Note(notesMap['5'], volume)
+				return new Note(constants.notesMap['5'], volume)
 				break
 			case 'span':
-				return new Note(notesMap['6'], volume)
+				return new Note(constants.notesMap['6'], volume)
 				break
 			case 'script':
-				return new Note(notesMap['7'], volume)
+				return new Note(constants.notesMap['7'], volume)
 				break
 			default:
-				return new Note(notesMap['1'], volume)
+				return new Note(constants.notesMap['1'], volume)
 		}
 	}
 
@@ -125,7 +125,7 @@ function SongAPI() {
 	}
 	
 	this.normalizeScale = function(scaleNotes) {
-		return scaleNotes.collect(function(i) { return i.nearestInScale(PENTATONIC_SCALE, 12); });
+		return scaleNotes.collect(function(i) { return i.nearestInScale(constants.PENTATONIC_SCALE, 12); });
 	}
 
 }
