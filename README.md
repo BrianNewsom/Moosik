@@ -64,9 +64,9 @@ The logic behind Moosik lives in app/scripts/main.js and app/scripts/audio.  For
   This will minify the script into app/scripts/moosik.min.js and into chrome_ext/moosik.min.js to update the extension.
 4. Try out the chrome extension by loading it from *chrome://extensions*. Enable developer mode and load packed extension
 5. If you're happy, pack the extension using pack extension, and place it in the root as Moosik.crx.
-6. Pull request and we'll address it as soon as possible.
+6. Pull request and we'll check it out as soon as we can!
 
 ### Submit an issue
-If you have an issue but don't know how to fix it, submit an issue at https://github.com/briannewsom/Moosik/issues.  We'll address it as soon as possible. Please include a screenshot of your developer console if you are able to.
+If you have an issue but don't know how to fix it, submit an issue at https://github.com/briannewsom/Moosik/issues. Please include a screenshot of your developer console if you are able to.
 
 Thank you!
