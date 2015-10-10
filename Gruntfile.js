@@ -266,6 +266,15 @@ module.exports = function (grunt) {
     // },
     // Copies remaining files to places other tasks can use
     copy: {
+			moosik: {
+				files:
+					[
+						{
+							dest: 'chrome_ext/moosik.min.js',
+							src: 'app/scripts/moosik.min.js'
+						}
+					]
+			},
       dist: {
         files:
           [
@@ -317,6 +326,12 @@ module.exports = function (grunt) {
     }
   });
 
+	grunt.registerTask('minify', 'Minify all js code into moosik.min.js', function() {
+		grunt.task.run([
+			'uglify:all_src',
+			'copy:moosik'
+		]);
+	})
 
   grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
     if (grunt.option('allow-remote')) {
