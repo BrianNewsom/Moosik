@@ -51,7 +51,7 @@ Enjoy!
 
 You're great! Thanks for wanting to help out.
 
-The logic behind Moosik lives in app/scripts/main.js and app/scripts/audio.  For readability, it is distributed among files, with the main control loop in main.js.  Dependencies live in bower_components (though they're not all bower, hooray hackathon code).  This is all packaged together into app/scripts/moosik.min.js by a grunt task **uglify:all_src**.
+The logic behind Moosik lives in app/scripts/main.js and app/scripts/audio.  For readability, it is distributed among files, with the main control loop in main.js.  Dependencies live in bower_components (though they're not all bower, hooray hackathon code).  This is all packaged together into app/scripts/moosik.min.js by a grunt task *minify*.
 
 ### Design Flow
 1. Fork the repository.
