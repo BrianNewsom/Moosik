@@ -43,7 +43,30 @@ you can include our script on **almost anyone's** site.  This will let you hear 
 of beautiful Moosikal creations without having to download anything.
 
 ### Sad News
-Some sites, e.g. Facebook protect their content or do not allow injection of JS files.  Unfortunately Moosik is currently unable to make music on these few sites.
+Some sites, e.g. Facebook, Github, and Twitter protect their content or do not allow injection of JS files.  Unfortunately Moosik is currently unable to make music on these few sites.  We are working on a fix to this issue.
 
 Enjoy!
 
+## I want to contribute!
+
+You're great! Thanks for wanting to help out.
+
+The logic behind Moosik lives in app/scripts/main.js and app/scripts/audio.  For readability, it is distributed among files, with the main control loop in main.js.  Dependencies live in bower_components (though they're not all bower, hooray hackathon code).  This is all packaged together into app/scripts/moosik.min.js by a grunt task **uglify:all_src**.
+
+### Design Flow
+1. Fork the repository.
+2. Edit the js files
+3. Minify the js into moosik.min.js using (from the home directory)
+  
+  ``` 
+  $ grunt minify
+  ```
+  This will minify the script into app/scripts/moosik.min.js and into chrome_ext/moosik.min.js to update the extension.
+4. Try out the chrome extension by loading it from *chrome://extensions*. Enable developer mode and load packed extension
+5. If you're happy, pack the extension using pack extension, and place it in the root as Moosik.crx.
+6. Pull request and we'll address it as soon as possible.
+
+### Submit an issue
+If you have an issue but don't know how to fix it, submit an issue at https://github.com/briannewsom/Moosik/issues.  We'll address it as soon as possible. Please include a screenshot of your developer console if you are able to.
+
+Thank you!
