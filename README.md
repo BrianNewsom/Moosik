@@ -36,10 +36,14 @@ optimize it a bit.
 
 #### I'm a Hacker
 Run the following JS in the developers console, and you can include our script on any site with jquery.
-```
+```JavaScript
 $('html').append('<script src="//BrianNewsom.github.io/Moosik/scripts/moosik.min.js"></script>')
 ```
-you can include our script on **almost anyone's** site.  This will let you hear different variations and all sorts
+You can also add the script with pure JavaScript
+```JavaScript
+var script = document.createElement('script');script.setAttribute('src','//BrianNewsom.github.io/Moosik/scripts/moosik.min.js');document.body.parentElement.appendChild(script);
+```
+You can include our script on **almost anyone's** site.  This will let you hear different variations and all sorts
 of beautiful Moosikal creations without having to download anything.
 
 ### Sad News
