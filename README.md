@@ -36,10 +36,14 @@ optimize it a bit.
 
 #### I'm a Hacker
 Run the following JS in the developers console, and you can include our script on any site with jquery.
-```
+```JavaScript
 $('html').append('<script src="//BrianNewsom.github.io/Moosik/scripts/moosik.min.js"></script>')
 ```
-you can include our script on **almost anyone's** site.  This will let you hear different variations and all sorts
+You can also add the script with pure JavaScript
+```JavaScript
+var script = document.createElement('script');script.setAttribute('src','//BrianNewsom.github.io/Moosik/scripts/moosik.min.js');document.body.parentElement.appendChild(script);
+```
+You can include our script on **almost anyone's** site.  This will let you hear different variations and all sorts
 of beautiful Moosikal creations without having to download anything.
 
 ### Sad News
@@ -51,7 +55,7 @@ Enjoy!
 
 You're great! Thanks for wanting to help out.
 
-The logic behind Moosik lives in app/scripts/main.js and app/scripts/audio.  For readability, it is distributed among files, with the main control loop in main.js.  Dependencies live in bower_components (though they're not all bower, hooray hackathon code).  This is all packaged together into app/scripts/moosik.min.js by a grunt task **uglify:all_src**.
+The logic behind Moosik lives in app/scripts/main.js and app/scripts/audio.  For readability, it is distributed among files, with the main control loop in main.js.  Dependencies live in bower_components (though they're not all bower, hooray hackathon code).  This is all packaged together into app/scripts/moosik.min.js by a grunt task *minify*.
 
 ### Design Flow
 1. Fork the repository.
