@@ -50,7 +50,7 @@ function SongAPI(constants) {
 	}
 
 	this.buildDrums = function(depth, callback) {
-		T("audio").load("//briannewsom.github.io/Moosik/audio/drumkit.wav", function() {
+		T("audio").load("https://s3-us-west-2.amazonaws.com/appoutloud/drumkit.wav", function() {
 			var BD  = this.slice(   0,  500).set({bang:false});
 			var SD  = this.slice( 500, 1000).set({bang:false});
 			var HH1 = this.slice(1000, 1500).set({bang:false, mul:0.2});
